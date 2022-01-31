@@ -1,73 +1,127 @@
-@extends('layouts.app')
+<!DOCTYPE html>
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
-
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
+<html lang="en" >
+    <!-- begin::Head -->
+    <head>
+        <meta charset="utf-8" />
+        <title>
+            CPCE
+        </title>
+        <meta name="description" content="Latest updates and statistic charts">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!--begin::Web font -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+        <script>
+          WebFont.load({
+            google: {"families":["Poppins:300,400,500,600,700","Roboto:300,400,500,600,700"]},
+            active: function() {
+                sessionStorage.fonts = true;
+            }
+          });
+        </script>
+        <!--end::Web font -->
+        <!--begin::Base Styles -->
+        <link href="../../../assets/vendors/base/vendors.bundle.css" rel="stylesheet" type="text/css" />
+        <link href="../../../assets/demo/default/base/style.bundle.css" rel="stylesheet" type="text/css" />
+        <!--end::Base Styles -->
+        <link rel="shortcut icon" href="{{asset('assets/images/ICON.png')}}" />
+    </head>
+    <!-- end::Head -->
+    <!-- end::Body -->
+    <body class="m--skin- m-header--fixed m-header--fixed-mobile m-aside-left--enabled m-aside-left--skin-dark m-aside-left--offcanvas m-footer--push m-aside--offcanvas-default"  >
+        <!-- begin:: Page -->
+        <div class="m-grid m-grid--hor m-grid--root m-page">
+            <div class="m-login m-login--signin  m-login--5" id="m_login" style="background-image: url(../../../assets/images/bg-3.jpg);">
+                <div class="m-login__wrapper-1 m-portlet-full-height">
+                    <div class="m-login__wrapper-1-1">
+                        <div class="m-login__contanier">
+                            <div class="m-login__content">
+                                <div class="m-login__logo">
+                                    <a href="#">
+                                        <img alt="" src="{{asset('assets/images/logo.png')}}"/>
+                                    </a>
+                                </div>
+                                <div class="m-login__title">
+                                    <h3>
+                                        CONSEJO PROFESIONAL DE CIENCIAS ECONOMICAS CORRIENTES
+                                    </h3>
+                                </div>
+                                <div class="m-login__desc">
+                                <span class="m-footer__copyright">
+                                    {{date('Y')}} &copy; 
+                                    <a href="#" class="m-link">
+                                        cpce
+                                    </a>
+                                </span>
+                                </div>
+                                <div class="m-login__form-action">
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
-                            </div>
+                        <div class="m-login__border">
+                            <div></div>
                         </div>
-                    </form>
+                    </div>
+                </div>
+                <div class="m-login__wrapper-2 m-portlet-full-height">
+                    <div class="m-login__contanier">
+                        <div class="m-login__signin">
+                            <div class="m-login__head">
+                                <h3 class="m-login__title">
+                                    Ingresar
+                                </h3>
+                            </div>
+
+                            <form class="m-login__form m-form" method="POST" action="{{ route('iniciarSesion') }}">
+                            {{ csrf_field() }}
+                              
+                                <div class="form-group m-form__group">                                  
+                                    <input id="username" type="text" class="form-control m-input" placeholder="Nombre de usuario" name="username" value="{{ old('username') }}" required autofocus>
+                                    @if ($errors->has('username'))
+                                      <span class="help-block">
+                                          <strong>{{ $errors->first('username') }}</strong>
+                                      </span>
+                                    @endif
+
+                                </div>
+                                <div class="form-group m-form__group">
+                                    <input id="password" type="password" class="form-control m-input m-login__form-input--last" placeholder="Contraseña" name="password" required>
+                                    @if ($errors->has('password'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('password') }}</strong>
+                                        </span>
+                                    @endif
+                                    
+                                </div>
+                                <div class="row m-login__form-sub">
+                                    <div class="col m--align-left">
+                                        <label class="m-checkbox m-checkbox--focus">
+                                            <input type="checkbox" name="remember">
+                                            Recordar
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="m-login__form-action">
+                                    <button type="submit" class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air">
+                                        Ingresar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-@endsection
+        <!-- end:: Page -->
+        <!--begin::Base Scripts -->
+        <script src="../../../assets/vendors/base/vendors.bundle.js" type="text/javascript"></script>
+        <script src="../../../assets/demo/default/base/scripts.bundle.js" type="text/javascript"></script>
+        <!--end::Base Scripts -->   
+        <!--begin::Page Snippets -->
+        <script src="../../../assets/snippets/pages/user/login.js" type="text/javascript"></script>
+        <!--end::Page Snippets -->
+    </body>
+    <!-- end::Body -->
+</html>
