@@ -17,12 +17,8 @@ use App\Http\Controllers\{
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/login', [LoginController::class, 'create'])->name('login');
+Route::get('/', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'iniciarSesion'])->name('iniciarSesion');
-Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
