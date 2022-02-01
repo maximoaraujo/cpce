@@ -22,7 +22,7 @@ class LoginController extends Controller
         if($user > 0){
             $id = Operadores_monitor::where('NombreUsuario', $request->username)->pluck('OperadorMonitorId')->first();
             $password = Operadores_monitor::where('NombreUsuario', $request->username)->pluck('Contrasena')->first();
-            if (Hash::check($request->password, $password)){
+            if (md5($request->password) == $password){
                 session(['userid' => $id]);
                 return redirect()->route('home');
             } else {

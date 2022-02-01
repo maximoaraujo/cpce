@@ -49,7 +49,7 @@
                         <div class="m-stack m-stack--ver m-stack--general">
                             <div class="m-stack__item m-stack__item--middle m-brand__logo">
                                 <a href="/" class="m-brand__logo-wrapper">                                 
-                                    <img alt="" src="{{asset('assets/images/encabezado-corrientes-light.png')}}" />
+                                    <img alt="logo_cpce" src="{{asset('assets/images/logo_transp_m.png')}}" />
                                 </a>
                             </div>
                             <div class="m-stack__item m-stack__item--middle m-brand__tools">
