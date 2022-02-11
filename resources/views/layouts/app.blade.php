@@ -32,7 +32,7 @@
     <link href="{{asset('/assets/demo/default/base/style.bundle.css')}}" rel="stylesheet" type="text/css" />
     <!--end::Base Styles -->
     <link rel="shortcut icon" href="{{asset('assets/images/ICON.png')}}" />
-  
+    @livewireStyles
     @yield('css')
 </head>
 <!-- end::Head -->
@@ -147,7 +147,7 @@
                 <div id="m_ver_menu" class="m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark " data-menu-vertical="true" data-menu-scrollable="false" data-menu-dropdown-timeout="500">
                     <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow ">
                         <li class="m-menu__item  m-menu__item--active" aria-haspopup="true">
-                            <a href="#" class="m-menu__link ">
+                            <a href="{{ route('honorarios.calcular') }}" class="m-menu__link ">
                                 <i class="m-menu__link-icon flaticon-list-2"></i>
                                 <span class="m-menu__link-title">
                                     <span class="m-menu__link-wrap">
@@ -195,8 +195,23 @@
     <!--begin::Page Snippets -->
     <script src="{{asset('/assets/app/js/dashboard.js')}}" type="text/javascript"></script>
     <!--end::Page Snippets -->
-
+    @livewireScripts
     @yield('js')
+    <script>
+    window.addEventListener('notify', event => {
+        $.notify({
+            message: event.detail.msj,
+            icon: 'icon fa fa-exclamation-circle'
+        },
+        {
+        type: event.detail.type,
+        placement: {
+            from: 'top', 
+            align: 'center'
+            }
+        });
+    });
+    </script>
 </body>
 <!-- end::Body -->
 </html>

@@ -27,7 +27,7 @@ class HomeController extends Controller
 
             return view('home', compact('username'));
         } else {
-            return view('login');
+            return view('auth.login');
         }
     }
 }
