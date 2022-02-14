@@ -29,4 +29,5 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::group(['prefix' => 'honorarios'], function() {
     Route::get('/calcular-honorario', [HonorariosController::class, 'calcular_honorario'])->name('honorarios.calcular');
     Route::get('/imprimir-presupuesto/{presupuesto}', [HonorariosController::class, 'imprimir_presupusto'])->name('honorarios.presupuesto');
+    Route::get('/presupuestos', [HonorariosController::class, 'presupuestos'])->name('honorarios.presupuestos');
 });

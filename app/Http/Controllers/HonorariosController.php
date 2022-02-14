@@ -72,4 +72,18 @@ class HonorariosController extends Controller
             return view('auth.login');
         }
     }
+
+    public function presupuestos()
+    {
+        if (session('userid') != null) {
+            $name = Operadores_monitor::where('OperadorMonitorId', session('userid'))->pluck('NombreApellido');
+            foreach ($name as $n) {
+                $username = $n;
+            }
+
+            return view('honorarios.presupuestos', compact('username'));
+        } else {
+            return view('auth.login');
+        }
+    }
 }
