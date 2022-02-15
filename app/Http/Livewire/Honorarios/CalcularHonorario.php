@@ -130,7 +130,8 @@ class CalcularHonorario extends Component
                 'presupuesto_id' => session('presupuesto'),
                 'impositivos' => json_encode($this->tareas_impositivas),
                 'laborales' => json_encode($this->tareas_laborales),
-                'otros' => json_encode($this->tareas_otros)
+                'otros' => json_encode($this->tareas_otros),
+                'user_id' => session('userid')
             ]);
     
             session(['presupuesto' => null]);

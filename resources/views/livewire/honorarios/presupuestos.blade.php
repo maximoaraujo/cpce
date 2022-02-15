@@ -16,12 +16,12 @@
                     <ul class="m-portlet__nav">
                         <li class="m-portlet__nav-item">
                             <div class="m-input-icon m-input-icon--left">                               
-                                <input type="text" id="buscar" name="buscar" class="form-control" placeholder="Buscar...">
+                                <!-- <input type="text" id="buscar" name="buscar" class="form-control" placeholder="Buscar...">
                                 <span class="m-input-icon__icon m-input-icon__icon--left">
                                     <span>
                                         <i class="la la-search"></i>
                                     </span>
-                                </span>
+                                </span> -->
                             </div>
                         </li>
                     </ul>
@@ -74,10 +74,10 @@
                                     <td></td>
                                     @endif
                                     <td>
-                                        <a href="{{ route('honorarios.presupuesto', ['presupuesto' => $presupuesto->presupuesto_id]) }}" target="_blank" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Editar">
+                                        <a href="{{ route('honorarios.presupuesto', ['presupuesto' => $presupuesto->presupuesto_id]) }}" target="_blank" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Reimprimir">
                                             <i class="la la-print"></i>
                                         </a>
-                                        <button wire:click="presupuestoID({{$presupuesto->id}})" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Ver">
+                                        <button wire:click="presupuestoID({{$presupuesto->id}})" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Eliminar">
                                             <i class="la la-trash"></i>
                                         </button>
                                     </td>

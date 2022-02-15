@@ -13,6 +13,7 @@ class Honorarios_presupuesto extends Model
         'presupuesto_id',
         'impositivos',
         'laborales',
-        'otros'
+        'otros',
+        'user_id'
     ];
 }
