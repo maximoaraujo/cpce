@@ -11,12 +11,18 @@
             <label class="m-checkbox">
                 <input type="checkbox" wire:click="impositivoID({{$impositivo->id}})">
                 {{$impositivo->descripcion}} 
-                <span></span>
-                <strong class = "text-danger">(${{number_format($impositivo->precio, 2)}})</strong>
+                <span>
+                </span>
+                <strong class = "text-danger">
+                    @if($impositivo->cantidad)
+                    <a href = "#">1</a> 
+                    x
+                    @endif
+                    (${{number_format($impositivo->precio, 2)}})</strong>
             </label>
             @empty
             @endforelse
-        </div>   
+        </div>  
     @empty
     Sin valores impositivos...
     @endforelse 

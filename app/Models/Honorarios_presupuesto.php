@@ -11,9 +11,15 @@ class Honorarios_presupuesto extends Model
 
     protected $fillable = [
         'presupuesto_id',
-        'impositivos',
-        'laborales',
-        'otros',
+        'valor_id',
+        'tipo',
+        'cantidad',
+        'precio',
         'user_id'
     ];
+
+    public function valores()
+    {
+        return $this->hasMany(Valores::class, 'valor_id');
+    }
 }
