@@ -14,7 +14,7 @@ class Presupuestos extends Component
 
     public function render()
     {
-        $presupuestos = Honorarios_presupuesto::select('presupuesto_id')->orderBy('created_at')->groupBy('presupuesto_id')->paginate(10);
+        $presupuestos = Honorarios_presupuesto::select('presupuesto_id','created_at')->orderBy('created_at')->groupBy('presupuesto_id', 'created_at')->paginate(10);
         
         return view('livewire.honorarios.presupuestos', compact('presupuestos'));
     }
