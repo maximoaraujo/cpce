@@ -8,17 +8,22 @@
         @endphp
         <div class="m-checkbox-list">
             @forelse($impositivos as $impositivo)
+            @php
+            $insertado = App\Models\Honorarios_presupuesto::where('presupuesto_id', session('presupuesto'))->where('valor_id', $impositivo->id)->count();
+            $cantidad = App\Models\Honorarios_presupuesto::where('presupuesto_id', session('presupuesto'))->where('valor_id', $impositivo->id)->pluck('cantidad')->first();         
+            @endphp
             <label class="m-checkbox">
-                <input type="checkbox" wire:click="impositivoID({{$impositivo->id}})">
+                <input type="checkbox" wire:click="impositivoID({{$impositivo->id}})" @if($insertado) checked @endif>
                 {{$impositivo->descripcion}} 
                 <span>
                 </span>
                 <strong class = "text-danger">
-                    @if($impositivo->cantidad)
-                    <a href = "#">1</a> 
+                    @if(($impositivo->cantidad)&&($cantidad > 0))
+                    <a href = "#" wire:click="editarCantidad({{$impositivo->id}})">{{$cantidad}}</a> 
                     x
                     @endif
-                    (${{number_format($impositivo->precio, 2)}})</strong>
+                    (${{number_format($impositivo->precio, 2)}})
+                </strong>
             </label>
             @empty
             @endforelse

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use PDF;
+use DB;
 
 use Illuminate\Http\Request;
 use App\Models\Operadores_monitor;
@@ -29,40 +30,24 @@ class HonorariosController extends Controller
         if (session('userid') != null) {
             $descarga = 0;
 
-            $impositivas = Honorarios_presupuesto::where('presupuesto_id', $presupuesto)->pluck('impositivos')->first();
-            $laborales = Honorarios_presupuesto::where('presupuesto_id', $presupuesto)->pluck('laborales')->first();
-            $otros = Honorarios_presupuesto::where('presupuesto_id', $presupuesto)->pluck('otros')->first();
-
             $tareas_impositivas = [];
             $total_impositivas = 0;
-            if($impositivas != '[""]'){
-                foreach(json_decode($impositivas) as $id){               
-                    array_push($tareas_impositivas, Valores::select('descripcion','precio')->where('id', $id)->first());
-                    $total_impositivas = Valores::where('id', $id)->sum('precio') + $total_impositivas;
-                }
-            }
+            $tareas_impositivas = Honorarios_presupuesto::where('presupuesto_id', $presupuesto)->where('tipo', 'impositivo')->get();
+            $total_impositivas = Honorarios_presupuesto::where('presupuesto_id', $presupuesto)->where('tipo', 'impositivo')->sum('total');
 
             $tareas_laborales = [];
             $total_laborales = 0;
-            if($laborales != '[""]'){
-                foreach(json_decode($laborales) as $id){               
-                    array_push($tareas_laborales, Valores::select('descripcion','precio')->where('id', $id)->first());
-                    $total_laborales = Valores::where('id', $id)->sum('precio') + $total_laborales;
-                }
-            }
-
+            $tareas_laborales = Honorarios_presupuesto::where('presupuesto_id', $presupuesto)->where('tipo', 'laboral')->get();
+            $total_laborales = Honorarios_presupuesto::where('presupuesto_id', $presupuesto)->where('tipo', 'laboral')->sum('total');
+            
             $tareas_otros = [];
             $total_otros = 0;
-            if($otros != '[""]'){
-                foreach(json_decode($otros) as $id){               
-                    array_push($tareas_otros, Valores::select('descripcion','precio')->where('id', $id)->first());
-                    $total_otros = Valores::where('id', $id)->sum('precio') + $total_otros;
-                }
-            }
+            $tareas_otros = Honorarios_presupuesto::where('presupuesto_id', $presupuesto)->where('tipo', 'otros')->get();
+            $total_otros = Honorarios_presupuesto::where('presupuesto_id', $presupuesto)->where('tipo', 'otros')->sum('total');
+        
+            $total = number_format($total_impositivas + $total_laborales + $total_otros, 2);
 
-            $total = floatval($total_impositivas) + floatval($total_laborales) + floatval($total_otros);
-
-            $pdf =  PDF::loadView('honorarios/pdf/presupuesto', compact('tareas_impositivas', 'tareas_laborales', 'tareas_otros', 'total'))->setPaper(array(0,0,595.4,841.4),'portrait');
+            $pdf =  PDF::loadView('honorarios/pdf/presupuesto', compact('tareas_impositivas', 'tareas_laborales', 'tareas_otros', 'total_impositivas', 'total_laborales', 'total_otros', 'total'))->setPaper(array(0,0,595.4,841.4),'portrait');
             if ($descarga) {
                 return $pdf->download('Presupuesto-'.$presupuesto.'.pdf');
             } else {

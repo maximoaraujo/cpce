@@ -1,4 +1,5 @@
 <div>
+    @include('honorarios.modales.modal-cantidad')
     <div class="container" style = "margin-top:55px;position:relative;min-height:500px;">
         <div class="d-flex align-items-center">
             <div class="mr-auto">
@@ -53,7 +54,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <button wire:click="guardar" class="btn btn-danger m-btn m-btn--icon mt-3" wire:loading.remove wire:target="guardar">
+                                    <button wire:click="generar_presupuesto" class="btn btn-danger m-btn m-btn--icon mt-3" wire:loading.remove wire:target="guardar">
                                         <span>
                                             <span>
                                                 Generar presupuesto
@@ -96,8 +97,16 @@
 </div>
 @section('js')
 <script>
+window.addEventListener('tiene-cantidad', event => {
+    $("#modal-cantidad").modal("show");
+});
+
+window.addEventListener('detalle-agregado', event => {
+    $("#modal-cantidad").modal("hide");
+});
+
 window.addEventListener('presupuesto', event => {
     window.open('/honorarios/imprimir-presupuesto/'+event.detail.presupuesto_id, '_blank');
-})
+});
 </script>
 @endsection

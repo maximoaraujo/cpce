@@ -34,9 +34,6 @@
                         <thead>
                             <tr>
                                 <th>
-                                    #
-                                </th>
-                                <th>
                                     Presupuesto ID  
                                 </th>	
                                 <th>
@@ -47,6 +44,9 @@
                                 </th>	
                                 <th>
                                     Otros 
+                                </th>
+                                <th>
+                                    Total 
                                 </th>	
                                 <th>
                                     Opciones
@@ -56,23 +56,28 @@
                         <tbody>                               
                             @forelse ($presupuestos as $presupuesto)
                                 <tr>
-                                    <td>{{$presupuesto->id}}</td>
                                     <td>{{$presupuesto->presupuesto_id}}</td>
-                                    @if($presupuesto->impositivos != '[""]')
-                                    <td><span class = "text-danger">{{count(json_decode($presupuesto->impositivos))}}</span> servicios agregados</td>
-                                    @else
-                                    <td></td>
-                                    @endif
-                                    @if($presupuesto->laborales != '[""]')
-                                    <td><span class = "text-danger">{{count(json_decode($presupuesto->laborales))}}</span> servicios agregados</td>
-                                    @else
-                                    <td></td>
-                                    @endif
-                                    @if($presupuesto->otros != '[""]')
-                                    <td><span class = "text-danger">{{count(json_decode($presupuesto->otros))}}</span> servicios agregados</td>
-                                    @else
-                                    <td></td>
-                                    @endif
+                                    <td>
+                                        @php
+                                        $total_impositivos = App\Models\Honorarios_presupuesto::where('presupuesto_id', $presupuesto->presupuesto_id)->where('tipo', 'impositivo')->sum('total');
+                                        @endphp
+                                        ${{number_format($total_impositivos, 2)}}
+                                    </td>
+                                    <td>
+                                        @php
+                                        $total_laborales = App\Models\Honorarios_presupuesto::where('presupuesto_id', $presupuesto->presupuesto_id)->where('tipo', 'laboral')->sum('total');
+                                        @endphp
+                                        ${{number_format($total_laborales, 2)}}
+                                    </td>
+                                    <td>
+                                        @php
+                                        $total_otros = App\Models\Honorarios_presupuesto::where('presupuesto_id', $presupuesto->presupuesto_id)->where('tipo', 'otros')->sum('total');
+                                        @endphp
+                                        ${{number_format($total_otros, 2)}}
+                                    </td>
+                                    <td>
+                                        ${{number_format($total_impositivos + $total_laborales + $total_otros, 2)}}
+                                    </td>
                                     <td>
                                         <a href="{{ route('honorarios.presupuesto', ['presupuesto' => $presupuesto->presupuesto_id]) }}" target="_blank" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Reimprimir">
                                             <i class="la la-print"></i>

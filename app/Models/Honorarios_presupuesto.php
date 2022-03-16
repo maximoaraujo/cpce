@@ -15,11 +15,12 @@ class Honorarios_presupuesto extends Model
         'tipo',
         'cantidad',
         'precio',
+        'total',
         'user_id'
     ];
 
     public function valores()
     {
-        return $this->hasMany(Valores::class, 'valor_id');
+        return $this->belongsTo(Valores::class, 'valor_id');
     }
 }

@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <title>Formulario de Inscripción</title>
+        <title>Presupuesto</title>
 
         <style>
         body{
@@ -100,23 +100,18 @@
             border:0.1px solid #888;
         }
 
-        td{
-            border-top: 1px solid #ccc;
-            padding: 4px;
+        table, th, td {
+            width: 100%;
+            border: 1px solid black;
+            border-collapse: collapse;
         }
 
-        .trTitulo{
-            font-weight: bold;
-            margin-top: 1px;
+        .col1{
+            width: 40%;
         }
 
-        .trSubTitulo {
-            background: #EfEfEf;
-            height: 25px;
-        }
-
-        table{
-            border:0px;
+        .col2{
+            width: 10%;
         }
 
         .center{
@@ -145,69 +140,93 @@
         </div>
     </div>
 
-    <table style="width: 100%" border="0">
-    <tr class="trTitulo">
-        <td colspan="4">TAREAS IMPOSITIVAS</td>
-    </tr>
-    <tr class="trTitulo">
-        <td colspan="2" class="trSubTitulo">Descripción</td>
-        <td colspan="2" class="trSubTitulo">Precio unitario</td>
-    </tr>
-    @forelse($tareas_impositivas as $impositiva)
-    <tr>
-        <td colspan="2">{{$impositiva['descripcion']}}</td>
-        <td colspan="2" nowrap>${{number_format($impositiva['precio'], 2)}}</td>
-    </tr>
-    @empty
-    <tr>
-        <td colspan="4">Sin tareas agregadas...</td>
-    </tr>
-    @endforelse
+    <table>
+        <thead>
+            <tr>
+                <th style = "width:500%;">Descripción</th>
+                <th>Cant.</th>
+                <th>Precio</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($tareas_impositivas as $impositiva)
+                <tr>
+                    <td style = "width:500%;padding:10px;">{{$impositiva->valores->descripcion}}</td>
+                    <td style = "text-align:center;">{{$impositiva->cantidad}}</td>
+                    <td style = "text-align:center;">${{number_format($impositiva->precio, 2)}}</td>
+                    <td style = "text-align:center;">${{number_format(($impositiva->precio * $impositiva->cantidad), 2)}}</td>
+                </tr>
+            @empty
+            <tr>
+                <td colspan = "4" style = "padding:10px;">Sin tareas agregadas...</td>
+            </tr>
+            @endforelse
+            <tr>
+                <td colspan="4">TOTAL TAREAS IMPOSITIVAS: ${{number_format($total_impositivas, 2)}}</td>
+            </tr>
+        </tbody>
     </table>
 
-    <table style="width: 100%;margin-top:15px;" border="0">
-    <tr class="trTitulo">
-        <td colspan="4">TAREAS LABORALES</td>
-    </tr>
-    <tr class="trTitulo">
-        <td colspan="2" class="trSubTitulo">Descripción</td>
-        <td colspan="2" class="trSubTitulo">Precio unitario</td>
-    </tr>
-    @forelse($tareas_laborales as $laboral)
-    <tr>
-        <td colspan="2">{{$laboral['descripcion']}}</td>
-        <td colspan="2" nowrap>${{number_format($laboral['precio'], 2)}}</td>
-    </tr>
-    @empty
-    <tr>
-        <td colspan="4">Sin tareas agregadas...</td>
-    </tr>
-    @endforelse
+    <table style = "margin-top:20px;">
+        <thead>
+            <tr>
+                <th style = "width:500%;">Descripción</th>
+                <th>Cant.</th>
+                <th>Precio</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($tareas_laborales as $laborales)
+                <tr>
+                    <td style = "width:500%;padding:10px;">{{$laborales->valores->descripcion}}</td>
+                    <td style = "text-align:center;">{{$laborales->cantidad}}</td>
+                    <td style = "text-align:center;">${{number_format($laborales->precio, 2)}}</td>
+                    <td style = "text-align:center;">${{number_format(($laborales->precio * $laborales->cantidad), 2)}}</td>
+                </tr>
+            @empty
+            <tr>
+                <td colspan = "4" style = "padding:10px;">Sin tareas agregadas...</td>
+            </tr>
+            @endforelse
+            <tr>
+                <td colspan="4">TOTAL TAREAS LABORALES: ${{number_format($total_laborales, 2)}}</td>
+            </tr>
+        </tbody>
     </table>
 
-    <table style="width: 100%;margin-top:15px;" border="0">
-    <tr class="trTitulo">
-        <td colspan="4">OTRAS TAREAS</td>
-    </tr>
-    <tr class="trTitulo">
-        <td colspan="2" class="trSubTitulo">Descripción</td>
-        <td colspan="2" class="trSubTitulo">Precio unitario</td>
-    </tr>
-    @forelse($tareas_otros as $otro)
-    <tr>
-        <td colspan="2">{{$otro['descripcion']}}</td>
-        <td colspan="2" nowrap>${{number_format($otro['precio'], 2)}}</td>
-    </tr>
-    @empty
-    <tr>
-        <td colspan="4">Sin tareas agregadas...</td>
-    </tr>
-    @endforelse
+    <table style = "margin-top:20px;">
+        <thead>
+            <tr>
+                <th style = "width:500%;">Descripción</th>
+                <th>Cant.</th>
+                <th>Precio</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($tareas_otros as $otros)
+                <tr>
+                    <td style = "width:500%;padding:10px;">{{$otros->valores->descripcion}}</td>
+                    <td style = "text-align:center;">{{$otros->cantidad}}</td>
+                    <td style = "text-align:center;">${{number_format($otros->precio, 2)}}</td>
+                    <td style = "text-align:center;">${{number_format(($otros->precio * $otros->cantidad), 2)}}</td>
+                </tr>
+            @empty
+            <tr>
+                <td colspan = "4" style = "padding:10px;">Sin tareas agregadas...</td>
+            </tr>
+            @endforelse
+            <tr>
+                <td colspan="4">TOTAL OTRAS TAREAS: ${{number_format($total_otros, 2)}}</td>
+            </tr>
+        </tbody>
     </table>
-    
-    <table style="width: 100%;margin-top:20px;" border="0">
+
+    <table style="width: 100%;margin-top:20px;border-left:none;">
         <tr>
-            <td colspan="5">Total: <b>${{number_format($total, 2)}}</b></td>
+            <td colspan="5" style = "font-size:20px;text-align:right;">Total: <b>${{$total}}</b></td>
         </tr>
     </table>
 
