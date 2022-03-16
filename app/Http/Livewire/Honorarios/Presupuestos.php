@@ -27,7 +27,7 @@ class Presupuestos extends Component
 
     public function eliminarPresupuesto()
     {
-        Honorarios_presupuesto::where('id', $this->presupuesto_id)->delete();
+        Honorarios_presupuesto::where('presupuesto_id', $this->presupuesto_id)->delete();
         $this->reset();
         $this->render();
         $this->dispatchBrowserEvent('modal-eliminar-down', []);

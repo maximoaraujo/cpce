@@ -82,7 +82,7 @@
                                         <a href="{{ route('honorarios.presupuesto', ['presupuesto' => $presupuesto->presupuesto_id]) }}" target="_blank" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Reimprimir">
                                             <i class="la la-print"></i>
                                         </a>
-                                        <button wire:click="presupuestoID({{$presupuesto->id}})" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Eliminar">
+                                        <button wire:click="presupuestoID('{{$presupuesto->presupuesto_id}}')" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Eliminar">
                                             <i class="la la-trash"></i>
                                         </button>
                                     </td>
