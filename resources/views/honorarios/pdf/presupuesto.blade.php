@@ -152,7 +152,11 @@
         <tbody>
             @forelse($tareas_impositivas as $impositiva)
                 <tr>
+                    @if($impositiva->valores->valor_minimo > 0)
+                    <td style = "width:500%;padding:10px;">{{$impositiva->valores->descripcion}}, <span style ="text-decoration:underline;">con un valor mínimo de {{number_format($impositiva->valores->valor_minimo, 2)}}</span></td>
+                    @else
                     <td style = "width:500%;padding:10px;">{{$impositiva->valores->descripcion}}</td>
+                    @endif
                     <td style = "text-align:center;">{{$impositiva->cantidad}}</td>
                     <td style = "text-align:center;">${{number_format($impositiva->precio, 2)}}</td>
                     <td style = "text-align:center;">${{number_format(($impositiva->precio * $impositiva->cantidad), 2)}}</td>
@@ -180,7 +184,11 @@
         <tbody>
             @forelse($tareas_laborales as $laborales)
                 <tr>
-                    <td style = "width:500%;padding:10px;">{{$laborales->valores->descripcion}}</td>
+                    @if($laborales->valores->valor_minimo > 0)
+                    <td style = "width:500%;padding:10px;">{{$laborales->valores->descripcion}} @if($laborales->empleados > 0) por un total de {{$laborales->empleados}} empleados @endif, <span style ="text-decoration:underline;">con un valor mínimo de {{number_format($laborales->valores->valor_minimo, 2)}}</span></td>
+                    @else
+                    <td style = "width:500%;padding:10px;">{{$laborales->valores->descripcion}} @if($laborales->empleados > 0) por un total de {{$laborales->empleados}} empleados @endif</td>
+                    @endif
                     <td style = "text-align:center;">{{$laborales->cantidad}}</td>
                     <td style = "text-align:center;">${{number_format($laborales->precio, 2)}}</td>
                     <td style = "text-align:center;">${{number_format(($laborales->precio * $laborales->cantidad), 2)}}</td>
@@ -208,7 +216,11 @@
         <tbody>
             @forelse($tareas_otros as $otros)
                 <tr>
+                    @if($otros->valores->valor_minimo > 0)
+                    <td style = "width:500%;padding:10px;">{{$otros->valores->descripcion}}, <span style ="text-decoration:underline;">con un valor mínimo de {{number_format($otros->valores->valor_minimo, 2)}}</span></td>
+                    @else
                     <td style = "width:500%;padding:10px;">{{$otros->valores->descripcion}}</td>
+                    @endif
                     <td style = "text-align:center;">{{$otros->cantidad}}</td>
                     <td style = "text-align:center;">${{number_format($otros->precio, 2)}}</td>
                     <td style = "text-align:center;">${{number_format(($otros->precio * $otros->cantidad), 2)}}</td>

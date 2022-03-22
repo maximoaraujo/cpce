@@ -1,5 +1,7 @@
 <div>
     @include('honorarios.modales.modal-cantidad')
+    @include('honorarios.modales.modal-calculo')
+    @include('honorarios.modales.modal-empleados')
     <div class="container" style = "margin-top:55px;position:relative;min-height:500px;">
         <div class="d-flex align-items-center">
             <div class="mr-auto">
@@ -107,6 +109,22 @@ window.addEventListener('detalle-agregado', event => {
 
 window.addEventListener('presupuesto', event => {
     window.open('/honorarios/imprimir-presupuesto/'+event.detail.presupuesto_id, '_blank');
+});
+
+window.addEventListener('tiene-calculo', event => {
+    $("#modal-calculo").modal("show");
+});
+
+window.addEventListener('calculo-ok', event => {
+    $("#modal-calculo").modal("hide");
+});
+
+window.addEventListener('tiene-empleados', event => {
+    $("#modal-empleados").modal("show");
+});
+
+window.addEventListener('calculo-empleados-ok', event => {
+    $("#modal-empleados").modal("hide");
 });
 </script>
 @endsection

@@ -9,7 +9,8 @@
         <div class="m-checkbox-list">
             @forelse($laborales as $laboral)
             @php
-            $insertado = App\Models\Honorarios_presupuesto::where('presupuesto_id', session('presupuesto'))->where('valor_id', $laboral->id)->count();        
+            $insertado = App\Models\Honorarios_presupuesto::where('presupuesto_id', session('presupuesto'))->where('valor_id', $laboral->id)->count(); 
+            $cantidad = App\Models\Honorarios_presupuesto::where('presupuesto_id', session('presupuesto'))->where('valor_id', $laboral->id)->pluck('cantidad')->first();                
             @endphp
             <label class="m-checkbox">
                 <input type="checkbox" wire:click="laboralID({{$laboral->id}})" @if($insertado) checked @endif>
@@ -17,11 +18,22 @@
                 <span></span>
                 <strong class = "text-danger">
                     @if(($laboral->cantidad)&&($cantidad > 0))
-                    {{$cantidad}}
-                    <a href = "#"></a> 
+                    <a href = "#" wire:click="editarCantidad({{$laboral->id}})">{{$cantidad}}</a> 
                     x
                     @endif
+                    @if($laboral->empleados)
+                        @php
+                        $total = App\Models\Honorarios_presupuesto::where('presupuesto_id', session('presupuesto'))->where('valor_id', $laboral->id)->pluck('total')->first();         
+                        @endphp
+                        @if($cantidad > 0)
+                        <span class = "text-danger">(${{number_format($total, 2)}})</span>
+                        @endif
+                    @else
                     (${{number_format($laboral->precio, 2)}})
+                    @endif
+                    @if($laboral->valor_minimo > 0)
+                    (Valor mínimo ${{$laboral->valor_minimo}})
+                    @endif
                 </strong>
             </label>
             @empty

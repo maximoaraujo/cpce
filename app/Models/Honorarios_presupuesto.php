@@ -14,6 +14,7 @@ class Honorarios_presupuesto extends Model
         'valor_id',
         'tipo',
         'cantidad',
+        'empleados',
         'precio',
         'total',
         'user_id'

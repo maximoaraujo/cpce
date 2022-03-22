@@ -14,15 +14,27 @@
             @endphp
             <label class="m-checkbox">
                 <input type="checkbox" wire:click="impositivoID({{$impositivo->id}})" @if($insertado) checked @endif>
-                {{$impositivo->descripcion}} 
+                {{$impositivo->descripcion}}
                 <span>
                 </span>
-                <strong class = "text-danger">
+                <strong class = "text-danger" style = "margin-top:10px;">
                     @if(($impositivo->cantidad)&&($cantidad > 0))
                     <a href = "#" wire:click="editarCantidad({{$impositivo->id}})">{{$cantidad}}</a> 
                     x
                     @endif
+                    @if($impositivo->calculo)
+                        @php
+                        $total = App\Models\Honorarios_presupuesto::where('presupuesto_id', session('presupuesto'))->where('valor_id', $impositivo->id)->pluck('total')->first();         
+                        @endphp
+                        @if($cantidad > 0)
+                        <span class = "text-danger">(${{number_format($total, 2)}})</span>
+                        @endif
+                    @else
                     (${{number_format($impositivo->precio, 2)}})
+                    @endif
+                    @if($impositivo->valor_minimo > 0)
+                    (Valor mínimo ${{$impositivo->valor_minimo}})
+                    @endif
                 </strong>
             </label>
             @empty
