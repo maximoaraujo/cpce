@@ -104,7 +104,7 @@ class CalcularHonorario extends Component
     public function impositivoID($impositivo_id)
     {  
         $this->impositivo_id = $impositivo_id;
-
+        $this->dispatchBrowserEvent('check-id', ['id' => $impositivo_id]);
         $this->valor = Valores::find($this->impositivo_id);
         $agregado = Honorarios_presupuesto::where('valor_id', $this->valor->id)->where('presupuesto_id', session('presupuesto'))->count();
 
@@ -133,7 +133,7 @@ class CalcularHonorario extends Component
     public function laboralID($laboral_id)
     {  
         $this->laboral_id = $laboral_id;
-
+        $this->dispatchBrowserEvent('check-id', ['id' => $laboral_id]);
         $this->valor = Valores::find($this->laboral_id);
         $agregado = Honorarios_presupuesto::where('valor_id', $this->valor->id)->where('presupuesto_id', session('presupuesto'))->count();
 
@@ -162,7 +162,7 @@ class CalcularHonorario extends Component
     public function otroID($otro_id)
     {  
         $this->otro_id = $otro_id;
-        
+        $this->dispatchBrowserEvent('check-id', ['id' => $otro_id]);
         $this->valor = Valores::find($this->otro_id);
         $agregado = Honorarios_presupuesto::where('valor_id', $this->valor->id)->where('presupuesto_id', session('presupuesto'))->count();
 

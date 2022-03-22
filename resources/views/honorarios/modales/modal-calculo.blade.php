@@ -3,13 +3,18 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Calcular honorarios adicionales</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <input type="number" wire:model.defer = "importe" class="form-control m-input col-sm-12 float-right" placeholder="Ingrese un importe">         
             </div>
             <div class="modal-footer">
-                <button type="button" wire:click = "calcular" class="btn btn-primary">Aceptar</button>
+                <button type="button" wire:click = "calcular" wire:loading.remove wire:target="calcular" class="btn btn-primary">Aceptar</button>
+                <div class = "text-sm" wire:loading wire:target="calcular">
+                    Calculando...
+                </div>
             </div>
         </div>
     </div>

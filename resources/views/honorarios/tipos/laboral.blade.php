@@ -13,7 +13,7 @@
             $cantidad = App\Models\Honorarios_presupuesto::where('presupuesto_id', session('presupuesto'))->where('valor_id', $laboral->id)->pluck('cantidad')->first();                
             @endphp
             <label class="m-checkbox">
-                <input type="checkbox" wire:click="laboralID({{$laboral->id}})" @if($insertado) checked @endif>
+                <input type="checkbox" wire:click="laboralID({{$laboral->id}})" @if($insertado) checked @endif id = "check_{{$laboral->id}}">
                 {{$laboral->descripcion}} 
                 <span></span>
                 <strong class = "text-danger">

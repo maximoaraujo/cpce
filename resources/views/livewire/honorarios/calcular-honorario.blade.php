@@ -126,5 +126,9 @@ window.addEventListener('tiene-empleados', event => {
 window.addEventListener('calculo-empleados-ok', event => {
     $("#modal-empleados").modal("hide");
 });
+
+window.addEventListener('check-id', event => {
+    document.getElementById("check_"+event.detail.id).checked = false;
+});
 </script>
 @endsection

@@ -3,13 +3,18 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Calcular honorarios por empleados</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <input type="number" wire:model.defer = "empleados" class="form-control m-input col-sm-12 float-right" placeholder="Ingrese cantidad de empleados">  
             </div>
             <div class="modal-footer">
-                <button type="button" wire:click = "calcular_empleados" class="btn btn-primary">Aceptar</button>
+                <button type="button" wire:click = "calcular_empleados" wire:loading.remove wire:target="calcular_empleados" class="btn btn-primary">Aceptar</button>
+                <div wire:loading wire:target="calcular_empleados">
+                    Calculando...
+                </div>
             </div>
         </div>
     </div>
