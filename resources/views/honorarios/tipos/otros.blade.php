@@ -8,12 +8,13 @@
         @endphp
         <div class="m-checkbox-list">
             @forelse($otros as $otro)
+            
             @php
             $insertado = App\Models\Honorarios_presupuesto::where('presupuesto_id', session('presupuesto'))->where('valor_id', $otro->id)->count();        
             @endphp
             <label class="m-checkbox">
+                {{$otro->descripcion}}
                 <input type="checkbox" wire:click="otroID({{$otro->id}})" @if($insertado) checked @endif id = "check_{{$otro->id}}">
-                {{$otro->descripcion}} 
                 <span></span>
                 <strong class = "text-danger">
                     @if(($otro->cantidad)&&($cantidad > 0))

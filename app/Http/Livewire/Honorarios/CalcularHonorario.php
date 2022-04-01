@@ -21,6 +21,9 @@ class CalcularHonorario extends Component
     public $tareas_impositivas = [];
     public $tareas_laborales = [];
     public $tareas_otros = [];
+    public $detalle_impositivos = [];
+    public $detalle_laborales = [];
+    public $detalle_otros = [];
 
     public function cambio_valores()
     {
@@ -52,10 +55,10 @@ class CalcularHonorario extends Component
     public function mount()
     {
         $this->generar_sesion();
+        $this->cambio_valores();
         $this->cargo_impositivos();
         $this->cargo_laborales();
         $this->cargo_otros();
-        $this->cambio_valores();
     }
 
     //Cargamos los valores impositivos
@@ -91,7 +94,7 @@ class CalcularHonorario extends Component
     {
         //Agrupamos por subtipos
         $subtipos = Valores::select('subtipo')->where('tipo', 'otros')->groupBy('subtipo')->get();
-
+    
         //Recorremos los subtipos y los almacenamos en un array
         foreach ($subtipos as $subtipo) {
             $array_subtipos[] = $subtipo->subtipo;
@@ -242,10 +245,18 @@ class CalcularHonorario extends Component
         $this->dispatchBrowserEvent('tiene-cantidad', []);
     }
 
+    public function vista_previa()
+    {
+        $this->dispatchBrowserEvent('vista-previa', []);
+        $this->detalle_impositivos = Honorarios_presupuesto::where('presupuesto_id', session('presupuesto'))->where('tipo', 'impositivo')->get();
+        $this->detalle_laborales = Honorarios_presupuesto::where('presupuesto_id', session('presupuesto'))->where('tipo', 'laboral')->get();
+        $this->detalle_otros = Honorarios_presupuesto::where('presupuesto_id', session('presupuesto'))->where('tipo', 'otros')->get();
+    }
+
     public function guadar_presupuesto()
     {
         if ($this->presupuesto == null) {
-
+            
             if ($this->valor->calculo) {
                 $valor = $this->valor_total;
                 $total = $this->valor_total;
@@ -309,6 +320,7 @@ class CalcularHonorario extends Component
 
         if ($tareas_agregadas == 0) {
             $this->dispatchBrowserEvent('notify', ['msj' => 'Seleccione al menos una tarea para poder generar el presupuesto.', 'type' => 'danger']); 
+            $this->dispatchBrowserEvent('vista-previa-fuera', []);   
         } else {
             $this->cambio_valores();
             session(['presupuesto' => null]);

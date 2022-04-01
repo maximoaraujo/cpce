@@ -38,25 +38,25 @@
                         <div class="m-portlet__head-tools">
                             <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x" role="tablist">
                                 <li class="nav-item m-tabs__item">
-                                    <a wire:click="$set('estado',1)"  class="nav-link m-tabs__link {{($estado == 1) ? 'active': ''}}" data-toggle="tab" href="#" role="tab">
+                                    <a wire:click="$set('estado', 1)"  class="nav-link m-tabs__link {{($estado == 1) ? 'active': ''}}" data-toggle="tab" href="#" role="tab">
                                         <i class="la la-money"></i>
                                         Impositivo
                                     </a>
                                 </li>                               
                                 <li class="nav-item m-tabs__item">
-                                    <a wire:click="$set('estado',2)"  class="nav-link m-tabs__link {{($estado == 2) ? 'active': ''}}" data-toggle="tab" href="#" role="tab">
+                                    <a wire:click="$set('estado', 2)"  class="nav-link m-tabs__link {{($estado == 2) ? 'active': ''}}" data-toggle="tab" href="#" role="tab">
                                         <i class="la la-users"></i>
                                         Laboral
                                     </a>
                                 </li>                                
                                 <li class="nav-item m-tabs__item">
-                                    <a wire:click="$set('estado',3)"  class="nav-link m-tabs__link {{($estado == 3) ? 'active': ''}}" data-toggle="tab" href="#" role="tab">
+                                    <a wire:click="$set('estado', 3)"  class="nav-link m-tabs__link {{($estado == 3) ? 'active': ''}}" data-toggle="tab" href="#" role="tab">
                                         <i class="la la-folder-open"></i>
                                         Otros
                                     </a>
                                 </li>
                                 <li>
-                                    <button wire:click="generar_presupuesto" class="btn btn-danger m-btn m-btn--icon mt-3" wire:loading.remove wire:target="guardar">
+                                    <button wire:click="vista_previa" class="btn btn-danger m-btn m-btn--icon mt-3" wire:loading.remove wire:target="guardar">
                                         <span>
                                             <span>
                                                 Generar presupuesto
@@ -69,6 +69,7 @@
                                         <small class = "text-metal">generando presupuesto...</small>
                                     </div>
                                 </li>
+                                @include('honorarios.modales.modal-vista-previa')
                             </ul>                           
                         </div>
                         <div class="m-portlet__head-tools">
@@ -109,6 +110,11 @@ window.addEventListener('detalle-agregado', event => {
 
 window.addEventListener('presupuesto', event => {
     window.open('/honorarios/imprimir-presupuesto/'+event.detail.presupuesto_id, '_blank');
+    $("#modal_vista_previa").modal("hide");
+});
+
+window.addEventListener('vista-previa-fuera', event => {
+    $("#modal_vista_previa").modal("hide");
 });
 
 window.addEventListener('tiene-calculo', event => {
@@ -129,6 +135,10 @@ window.addEventListener('calculo-empleados-ok', event => {
 
 window.addEventListener('check-id', event => {
     document.getElementById("check_"+event.detail.id).checked = false;
+});
+
+window.addEventListener('vista-previa', event => {
+    $("#modal_vista_previa").modal("show");
 });
 </script>
 @endsection

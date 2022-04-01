@@ -76,6 +76,12 @@
                             <form class="m-login__form m-form" method="POST" action="{{ route('iniciarSesion') }}">
                             {{ csrf_field() }}
                               
+                                @if($errors->any())
+                                <div class="alert alert-danger" role="alert">
+                                {{$errors->first()}}
+                                </div>
+                                @endif
+
                                 <div class="form-group m-form__group">                                  
                                     <input id="username" type="text" class="form-control m-input" placeholder="Nombre de usuario" name="username" value="{{ old('username') }}" required autofocus>
                                     @if ($errors->has('username'))
