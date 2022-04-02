@@ -13,7 +13,7 @@ use App\Models\Valores_empleado;
 class CalcularHonorario extends Component
 {
     public $presupuesto, $estado, $buscar;
-    public $check_impositivo, $impositivo_id, $laboral_id, $otro_id, $cantidad = 1, $importe, $empleados;
+    public $check_impositivo, $impositivo_id, $laboral_id, $otro_id, $cantidad = 1, $importe, $empleados, $total = 0;
     public $valor, $valor_total, $valor_empleados;
     public $subtipos_impositivo = [];
     public $subtipos_laboral = [];
@@ -224,7 +224,7 @@ class CalcularHonorario extends Component
 
     public function calcular_empleados()
     {
-        if (($this->empleados == null)||($this->empleados == 0)) {
+        if (($this->empleados == null)||($this->empleados <= 0)) {
             $this->dispatchBrowserEvent('notify', ['msj' => 'Por favor ingrese una cantidad valida.', 'type' => 'warning']);
         } else {
             $valor_id = Valores_empleado::where('min', '<=', $this->empleados)->where('max', '>=', $this->empleados)->pluck('id')->first();
@@ -247,64 +247,77 @@ class CalcularHonorario extends Component
 
     public function vista_previa()
     {
+        $total_impositivas = 0;
+        $total_laborales = 0;
+        $total_otros = 0;
+
         $this->dispatchBrowserEvent('vista-previa', []);
         $this->detalle_impositivos = Honorarios_presupuesto::where('presupuesto_id', session('presupuesto'))->where('tipo', 'impositivo')->get();
         $this->detalle_laborales = Honorarios_presupuesto::where('presupuesto_id', session('presupuesto'))->where('tipo', 'laboral')->get();
         $this->detalle_otros = Honorarios_presupuesto::where('presupuesto_id', session('presupuesto'))->where('tipo', 'otros')->get();
+        
+        $total_impositivas = Honorarios_presupuesto::where('presupuesto_id',session('presupuesto'))->where('tipo', 'impositivo')->sum('total');
+        $total_laborales = Honorarios_presupuesto::where('presupuesto_id',session('presupuesto'))->where('tipo', 'laboral')->sum('total');
+        $total_otros = Honorarios_presupuesto::where('presupuesto_id',session('presupuesto'))->where('tipo', 'otros')->sum('total');
+        $this->total = number_format($total_impositivas + $total_laborales + $total_otros, 2);
     }
 
     public function guadar_presupuesto()
     {
-        if ($this->presupuesto == null) {
-            
-            if ($this->valor->calculo) {
-                $valor = $this->valor_total;
-                $total = $this->valor_total;
-                $empleados = null;
-            } elseif ($this->valor->empleados) {
-                $valor = $this->valor_empleados;
-                $total = $this->valor_empleados; 
-                $empleados = $this->empleados;
-            } else {
-                $valor = $this->valor->precio;
-                $total = $this->cantidad * $this->valor->precio;
-                $empleados = null;
-            }
-
-            if($this->valor->valor_minimo > 0){
-                if ($this->valor->valor_minimo > $total) {
-                    $valor = $this->valor->valor_minimo;
-                    $total = $valor;
-                }
-            }
-            
-            $presupuesto = Honorarios_presupuesto::create([
-                'presupuesto_id' => session('presupuesto'),
-                'valor_id' => $this->valor->id,
-                'tipo' => $this->valor->tipo,
-                'cantidad' => $this->cantidad,
-                'empleados' => $empleados,
-                'precio' => $valor,
-                'total' => $total,
-                'user_id' => session('userid'),
-            ]);
-
-            if($presupuesto){
-                $this->cantidad = 1;
-                $this->dispatchBrowserEvent('detalle-agregado', []);
-            }
-               
+        if ($this->cantidad <= 0) {
+            $this->dispatchBrowserEvent('notify', ['msj' => 'Por favor ingrese una cantidad valida.', 'type' => 'danger']); 
         } else {
-            $presupuesto = Honorarios_presupuesto::where('id', $this->presupuesto->id)->update([
-                'cantidad' => $this->cantidad,
-                'total' => $this->cantidad * $this->presupuesto->precio,
-            ]);
+            if ($this->presupuesto == null) {
+            
+                if ($this->valor->calculo) {
+                    $valor = $this->valor_total;
+                    $total = $this->valor_total;
+                    $empleados = null;
+                } elseif ($this->valor->empleados) {
+                    $valor = $this->valor_empleados;
+                    $total = $this->valor_empleados; 
+                    $empleados = $this->empleados;
+                } else {
+                    $valor = $this->valor->precio;
+                    $total = $this->cantidad * $this->valor->precio;
+                    $empleados = null;
+                }
     
-            if($presupuesto){
-                $this->cantidad = 1;
-                $this->dispatchBrowserEvent('detalle-agregado', []);
-            }
-        }  
+                if($this->valor->valor_minimo > 0){
+                    if ($this->valor->valor_minimo > $total) {
+                        $valor = $this->valor->valor_minimo;
+                        $total = $valor;
+                    }
+                }
+                
+                $presupuesto = Honorarios_presupuesto::create([
+                    'presupuesto_id' => session('presupuesto'),
+                    'valor_id' => $this->valor->id,
+                    'tipo' => $this->valor->tipo,
+                    'cantidad' => $this->cantidad,
+                    'empleados' => $empleados,
+                    'precio' => $valor,
+                    'total' => $total,
+                    'user_id' => session('userid'),
+                ]);
+    
+                if($presupuesto){
+                    $this->cantidad = 1;
+                    $this->dispatchBrowserEvent('detalle-agregado', []);
+                }
+                   
+            } else {
+                $presupuesto = Honorarios_presupuesto::where('id', $this->presupuesto->id)->update([
+                    'cantidad' => $this->cantidad,
+                    'total' => $this->cantidad * $this->presupuesto->precio,
+                ]);
+        
+                if($presupuesto){
+                    $this->cantidad = 1;
+                    $this->dispatchBrowserEvent('detalle-agregado', []);
+                }
+            } 
+        } 
     }
 
     public function quitar_presupuesto()

@@ -93,6 +93,9 @@
                         </div>
                     </div>
                 </div>
+                <div class = "float-left">
+                <strong>Subtotal: ${{$total}}</strong>
+                </div>
             </div>
             <!--/-->
             </div>
