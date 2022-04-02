@@ -33286,8 +33286,7 @@ body.m-content--skin-light2 {
     list-style: none; }
   .m-aside-menu .m-menu__nav .m-menu__inner,
   .m-aside-menu .m-menu__nav .m-menu__submenu {
-    display: none;
-    float: none;
+    display: block;
     margin: 0;
     padding: 0; }
     .m-aside-menu .m-menu__nav .m-menu__inner .m-menu__content,
