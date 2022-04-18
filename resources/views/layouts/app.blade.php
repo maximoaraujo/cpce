@@ -163,7 +163,7 @@
                                                 <span></span>
                                             </i>
                                             <span class="m-menu__link-text">
-                                                Calcular
+                                                Calcular Presupuesto
                                             </span>
                                         </a>
                                     </li>
@@ -178,7 +178,7 @@
                                                 <span></span>
                                             </i>
                                             <span class="m-menu__link-text">
-                                                Presupuestos
+                                                Presupuestos Generados
                                             </span>
                                         </a>
                                     </li>

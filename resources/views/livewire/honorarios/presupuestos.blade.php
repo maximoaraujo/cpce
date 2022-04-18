@@ -34,9 +34,6 @@
                         <thead>
                             <tr>
                                 <th>
-                                    Presupuesto ID  
-                                </th>	
-                                <th>
                                     Impositivos 
                                 </th>	
                                 <th>
@@ -56,7 +53,6 @@
                         <tbody>                               
                             @forelse ($presupuestos as $presupuesto)
                                 <tr>
-                                    <td>{{$presupuesto->presupuesto_id}}</td>
                                     <td>
                                         @php
                                         $total_impositivos = App\Models\Honorarios_presupuesto::where('presupuesto_id', $presupuesto->presupuesto_id)->where('tipo', 'impositivo')->sum('total');
