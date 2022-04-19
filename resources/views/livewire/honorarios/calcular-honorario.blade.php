@@ -84,6 +84,7 @@
                                     Fecha:
                                 </label>
                                 <input type="date" wire:model.defer="fecha" class="form-control m-input">
+                                @error('fecha') <span class="error">{{ $message }}</span> @enderror
                             </div>
                             <div class="col-lg-5">
                                 <label>
@@ -91,7 +92,12 @@
                                 </label>
                                 <input type="hidden" wire:model="cod_cliente" >
                                 <input wire:model="cliente" type="text" class="uppercase form-control m-inputt">
-
+                                @error('cod_cliente') 
+                                <script>
+                                $("#modal_vista_previa").modal("hide");
+                                </script>
+                                <span class="error">{{ $message }}</span> 
+                                @enderror
                                 @if(!$picked)
                                 <ul class="m-nav border px-3">
                                     @forelse($clientes as $cliente)
@@ -117,7 +123,12 @@
                                 </label>
                                 <input type="hidden" wire:model="matriculado_id" >
                                 <input wire:model="matriculado" type="text" class="uppercase form-control m-inputt">
-
+                                @error('matriculado_id') 
+                                <script>
+                                $("#modal_vista_previa").modal("hide");
+                                </script>
+                                <span class="error">{{ $message }}</span> 
+                                @enderror
                                 @if(!$picked1)
                                 <ul class="m-nav border px-3">
                                     @forelse($matriculados as $matriculado)

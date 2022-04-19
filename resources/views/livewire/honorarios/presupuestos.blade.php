@@ -16,12 +16,9 @@
                     <ul class="m-portlet__nav">
                         <li class="m-portlet__nav-item">
                             <div class="m-input-icon m-input-icon--left">                               
-                                <!-- <input type="text" id="buscar" name="buscar" class="form-control" placeholder="Buscar...">
-                                <span class="m-input-icon__icon m-input-icon__icon--left">
-                                    <span>
-                                        <i class="la la-search"></i>
-                                    </span>
-                                </span> -->
+                                <div class="m-portlet__head-tools">
+                                    <input type="text" wire:model = "buscar" class="form-control m-input col-sm-12" placeholder="Buscar...">
+                                </div>
                             </div>
                         </li>
                     </ul>
@@ -33,6 +30,12 @@
                     <table class="table m-table m-table--head-bg-primary table-hover table-striped" width="100%">
                         <thead>
                             <tr>
+                                <th>
+                                    Fecha 
+                                </th>
+                                 <th>
+                                    Cliente 
+                                </th>
                                 <th>
                                     Impositivos 
                                 </th>	
@@ -53,6 +56,8 @@
                         <tbody>                               
                             @forelse ($presupuestos as $presupuesto)
                                 <tr>
+                                    <td>{{date('d-m-Y', strtotime($presupuesto->fecha))}}</td>
+                                    <td>{{$presupuesto->clientes->nombre}}</td>
                                     <td>
                                         @php
                                         $total_impositivos = App\Models\Honorarios_presupuesto::where('presupuesto_id', $presupuesto->presupuesto_id)->where('tipo', 'impositivo')->sum('total');

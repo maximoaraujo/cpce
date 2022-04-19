@@ -4,17 +4,18 @@ namespace App\Http\Livewire\Honorarios;
 use Livewire\WithPagination;
 
 use Livewire\Component;
+use App\Models\Presupuesto;
 use App\Models\Honorarios_presupuesto;
 
 class Presupuestos extends Component
 {
     use WithPagination;
 
-    public $presupuesto_id;
+    public $presupuesto_id, $buscar;
 
     public function render()
     {
-        $presupuestos = Honorarios_presupuesto::select('presupuesto_id')->groupBy('presupuesto_id')->paginate(10);
+        $presupuestos = Presupuesto::orderBy('fecha')->paginate(10);
         
         return view('livewire.honorarios.presupuestos', compact('presupuestos'));
     }

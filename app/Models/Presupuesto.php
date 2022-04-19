@@ -18,7 +18,7 @@ class Presupuesto extends Model
 
     public function clientes()
     {
-        return $this->belongsTo(Cliente::class, 'codigo_cliente');
+        return $this->belongsTo(Cliente::class, 'codigo_cliente', 'codigo');
     }
     
     public function matriculados()

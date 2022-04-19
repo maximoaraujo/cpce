@@ -382,7 +382,8 @@ class CalcularHonorario extends Component
             $this->dispatchBrowserEvent('vista-previa-fuera', []);   
         } else {
             $this->cambio_valores();
-            $this->validate([
+            
+            $validatedData = $this->validate([
                 'fecha' => 'required|date:Y-m-d',
                 'cod_cliente' => 'required|exists:clientes,codigo',
                 'matriculado_id' => 'required|exists:matriculados,id'
