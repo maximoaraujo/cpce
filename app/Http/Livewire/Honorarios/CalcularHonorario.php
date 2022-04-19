@@ -15,7 +15,7 @@ use App\Models\Valores_empleado;
 
 class CalcularHonorario extends Component
 {
-    public $fecha, $cod_cliente, $cliente, $matriculado_id, $matriculado;
+    public $fecha, $cliente, $cliente_buscar, $matriculado, $matriculado_buscar, $observaciones;
     public $clientes = [];
     public $matriculados = [];
     public $picked, $picked1;
@@ -71,37 +71,37 @@ class CalcularHonorario extends Component
         $this->picked1 = true;
     }
 
-    public function updatedCliente()
+    public function updatedClienteBuscar()
     {
         $this->picked = false;
 
-        $this->clientes = Cliente::where('nombre', 'like', '%'.$this->cliente.'%')
+        $this->clientes = Cliente::where('nombre', 'like', '%'.$this->cliente_buscar.'%')
         ->take(5)
         ->get();
     }
 
     public function select_cliente($codigo)
     {
-        $this->cod_cliente = $codigo;
-        $cliente = Cliente::where('codigo', $this->cod_cliente)->first();
-        $this->cliente = $cliente->nombre;
+        $this->cliente = $codigo;
+        $cliente = Cliente::where('codigo', $this->cliente)->first();
+        $this->cliente_buscar = $cliente->nombre;
         $this->picked = true;
     }
 
-    public function updatedMatriculado()
+    public function updatedMatriculadoBuscar()
     {
         $this->picked1 = false;
 
-        $this->matriculados = Matriculado::where('nombre', 'like', '%'.$this->matriculado.'%')
+        $this->matriculados = Matriculado::where('nombre', 'like', '%'.$this->matriculado_buscar.'%')
         ->take(5)
         ->get();
     }
 
     public function select_matriculado($matriculado_id)
     {
-        $this->matriculado_id = $matriculado_id;
-        $matriculado = Matriculado::find($this->matriculado_id);
-        $this->matriculado = $matriculado->nombre;
+        $this->matriculado = $matriculado_id;
+        $matriculado = Matriculado::find($this->matriculado);
+        $this->matriculado_buscar = $matriculado->nombre;
         $this->picked1 = true;
     }
 
@@ -291,6 +291,7 @@ class CalcularHonorario extends Component
 
     public function vista_previa()
     {
+        $this->resetValidation();
         $total_impositivas = 0;
         $total_laborales = 0;
         $total_otros = 0;
@@ -336,8 +337,6 @@ class CalcularHonorario extends Component
     
                 $presupuesto = Honorarios_presupuesto::create([
                     'presupuesto_id' => session('presupuesto'),
-                    'codigo_cliente' => $this->cod_cliente,
-                    'matriculado_id' => $this->matriculado_id,
                     'valor_id' => $this->valor->id,
                     'tipo' => $this->valor->tipo,
                     'cantidad' => $this->cantidad,
@@ -382,18 +381,19 @@ class CalcularHonorario extends Component
             $this->dispatchBrowserEvent('vista-previa-fuera', []);   
         } else {
             $this->cambio_valores();
-            
-            $validatedData = $this->validate([
+
+            $this->validate([
                 'fecha' => 'required|date:Y-m-d',
-                'cod_cliente' => 'required|exists:clientes,codigo',
-                'matriculado_id' => 'required|exists:matriculados,id'
+                'cliente' => 'required|exists:clientes,codigo',
+                'matriculado' => 'required|exists:matriculados,id'
             ]);
 
             Presupuesto::create([
                 'presupuesto_id' => $presupuesto_id,
                 'fecha' => $this->fecha,
-                'codigo_cliente' => $this->cod_cliente,
-                'matriculado_id' => $this->matriculado_id
+                'codigo_cliente' => $this->cliente,
+                'matriculado_id' => $this->matriculado,
+                'observaciones' => $this->observaciones
             ]);
 
             session(['presupuesto' => null]);

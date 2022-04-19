@@ -15,7 +15,16 @@ class Presupuestos extends Component
 
     public function render()
     {
-        $presupuestos = Presupuesto::orderBy('fecha')->paginate(10);
+        $buscador = $this->buscar;
+
+        $presupuestos = Presupuesto::join('clientes', 'clientes.codigo', 'presupuestos.codigo_cliente')
+        ->join('matriculados', 'matriculados.id', 'presupuestos.matriculado_id')
+        ->select('presupuestos.id', 'presupuestos.presupuesto_id', 'presupuestos.fecha', 'clientes.nombre as cliente', 'matriculados.nombre as matriculado', 'presupuestos.observaciones')
+        ->where(function ($query) use ($buscador) {
+            $query->where('clientes.nombre', 'LIKE', '%' .$buscador. '%')
+            ->Orwhere('matriculados.nombre', 'LIKE', '%' .$buscador. '%');
+        })
+        ->orderBy('fecha')->paginate(10);
         
         return view('livewire.honorarios.presupuestos', compact('presupuestos'));
     }

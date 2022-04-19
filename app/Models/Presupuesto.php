@@ -14,6 +14,7 @@ class Presupuesto extends Model
         'fecha',
         'codigo_cliente',
         'matriculado_id',
+        'observaciones'
     ];
 
     public function clientes()

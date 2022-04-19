@@ -15,13 +15,13 @@
         .titulo{
             font-weight: bold;
             text-align: center;
-            font-size:28px;
+            font-size:19px;
         }
 
         .subTitulo{
             font-weight: bold;
             text-align: center;
-            font-size:20px;
+            font-size:18px;
         }
 
         .texto{
@@ -100,18 +100,25 @@
             border:0.1px solid #888;
         }
 
-        table, th, td {
-            width: 100%;
-            border: 1px solid black;
-            border-collapse: collapse;
+        td{
+            border-top: 1px solid #ccc;
+            padding: 4px;
         }
 
-        .col1{
-            width: 40%;
+        .trTitulo{
+            font-weight: bold;
+            margin-top: 1px;
         }
 
-        .col2{
-            width: 10%;
+        .trSubTitulo {
+            background: #EfEfEf;
+            height: 25px;
+            text-align:left;
+        }
+
+        table{
+            margin-top:20px;
+            border:0px;
         }
 
         .center{
@@ -128,25 +135,39 @@
 
     <div class="header">
         <div class="logoImg">
-        <img src="{{public_path() .'/images/logo_blanco.jpg'}}" width="100px">
+            <img src="{{public_path() .'/images/logo_blanco.jpg'}}" height="110">
         </div>
-        <div class="tituloHeader">CONSEJO PROFESIONAL DE CIENCIAS ECONÓMICAS <br>
+        <div class="titulo">CONSEJO PROFESIONAL DE CIENCIAS ECONÓMICAS <br>
         </div>
-        <div class="subTituloHeader">
+        <div class="subTitulo">
         
         </div>
         <div class="formHeader">
-            PRESUPUESTO
+        PRESUPUESTO HONORARIOS PROFESIONALES MÍNIMOS
         </div>
     </div>
 
-    <table>
+    <table style="width: 100%" border="0">
+
+        <tr class="">
+            <td colspan="5"><b>Fecha: </b>{{date('d-m-Y', strtotime($presupuesto->fecha))}}</td>
+        </tr>
+        <tr class="">
+            <td colspan="2"><b>Cliente: </b>{{$presupuesto->clientes->nombre}}</td>
+            <td colspan="3"><b>C.U.I.T.: </b>{{$presupuesto->clientes->cuit}}</td>
+        <tr class="">
+            <td colspan="2"><b>Dirección: </b>{{$presupuesto->clientes->direccion}}</td>
+            <td colspan="3"><b>Telefono: </b>{{$presupuesto->clientes->telefono}}</td>
+        </tr>
+    </table>
+
+    <table style="width: 100%">
         <thead>
-            <tr>
-                <th style = "width:500%;">Descripción</th>
-                <th>Cant.</th>
-                <th>Precio</th>
-                <th>Total</th>
+            <tr class="trTitulo">
+                <th class="trSubTitulo" style = "width:500%;">Descripción</th>
+                <th class="trSubTitulo">Cant.</th>
+                <th class="trSubTitulo">Precio</th>
+                <th class="trSubTitulo">Total</th>
             </tr>
         </thead>
         <tbody>
@@ -172,13 +193,13 @@
         </tbody>
     </table>
 
-    <table style = "margin-top:20px;">
+    <table style="width: 100%" style = "margin-top:20px;">
         <thead>
-            <tr>
-                <th style = "width:500%;">Descripción</th>
-                <th>Cant.</th>
-                <th>Precio</th>
-                <th>Total</th>
+            <tr class="trTitulo">
+                <th class="trSubTitulo" style = "width:500%;">Descripción</th>
+                <th class="trSubTitulo">Cant.</th>
+                <th class="trSubTitulo">Precio</th>
+                <th class="trSubTitulo">Total</th>
             </tr>
         </thead>
         <tbody>
@@ -204,13 +225,13 @@
         </tbody>
     </table>
 
-    <table style = "margin-top:20px;">
+    <table style="width: 100%" style = "margin-top:20px;">
         <thead>
-            <tr>
-                <th style = "width:500%;">Descripción</th>
-                <th>Cant.</th>
-                <th>Precio</th>
-                <th>Total</th>
+            <tr class="trTitulo">
+                <th class="trSubTitulo" style = "width:500%;">Descripción</th>
+                <th class="trSubTitulo">Cant.</th>
+                <th class="trSubTitulo">Precio</th>
+                <th class="trSubTitulo">Total</th>
             </tr>
         </thead>
         <tbody>
@@ -235,20 +256,11 @@
             </tr>
         </tbody>
     </table>
-
+    <p>{{$presupuesto->observaciones}}</p>
     <table style="width: 100%;margin-top:20px;border-left:none;">
         <tr>
             <td colspan="5" style = "font-size:20px;text-align:right;">Total: <b>${{$total}}</b></td>
         </tr>
     </table>
-
-    <hr style="border-top: dashed 1px;">
-        <p style="text-align: center;">
-            <b>Direccion: </b>Carlos Pellegrini 1150. W3400 Corrientes.
-        <br>
-            <b>Tel: </b>0379 442-2884 / <b>Email: </b>informes@cpcecorrientes.org.ar
-        <br>
-            <b>Facebook: </b>Cpce Corrientes / <b>Webpage: </b>https://cpcecorrientes.org.ar/
-        </p>
     </body>
 </html>

@@ -90,13 +90,13 @@
                                 <label>
                                     Cliente:
                                 </label>
-                                <input type="hidden" wire:model="cod_cliente" >
-                                <input wire:model="cliente" type="text" class="uppercase form-control m-inputt">
-                                @error('cod_cliente') 
+                                <input type="hidden" wire:model="cliente" >
+                                <input wire:model="cliente_buscar" type="text" class="uppercase form-control m-inputt">
+                                @error('cliente') 
                                 <script>
                                 $("#modal_vista_previa").modal("hide");
                                 </script>
-                                <span class="error">{{ $message }}</span> 
+                                <span class="m-form__help" style = "color:red;font-size:12px;">{{ $message }}</span> 
                                 @enderror
                                 @if(!$picked)
                                 <ul class="m-nav border px-3">
@@ -121,13 +121,13 @@
                                 <label class="">
                                     Profesional:
                                 </label>
-                                <input type="hidden" wire:model="matriculado_id" >
-                                <input wire:model="matriculado" type="text" class="uppercase form-control m-inputt">
-                                @error('matriculado_id') 
+                                <input type="hidden" wire:model="matriculado" >
+                                <input wire:model="matriculado_buscar" type="text" class="uppercase form-control m-inputt">
+                                @error('matriculado') 
                                 <script>
                                 $("#modal_vista_previa").modal("hide");
                                 </script>
-                                <span class="error">{{ $message }}</span> 
+                                <span class="m-form__help" style = "color:red;font-size:12px;">{{ $message }}</span> 
                                 @enderror
                                 @if(!$picked1)
                                 <ul class="m-nav border px-3">
@@ -147,6 +147,12 @@
                                     @endforelse
                                 </ul> 
                                 @endif
+                            </div>
+                            <div class="col-lg-12 mt-3">
+                                <label>
+                                    Observaciones:
+                                </label>
+                                <textarea wire:model.defer="observaciones" class="form-control m-input" rows="3"></textarea>
                             </div>
                         </div>
                         <hr>

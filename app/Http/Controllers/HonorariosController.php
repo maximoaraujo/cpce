@@ -7,6 +7,7 @@ use DB;
 use Illuminate\Http\Request;
 use App\Models\Operadores_monitor;
 use App\Models\Valores;
+use App\Models\Presupuesto;
 use App\Models\Honorarios_presupuesto;
 
 class HonorariosController extends Controller
@@ -47,7 +48,10 @@ class HonorariosController extends Controller
         
             $total = number_format($total_impositivas + $total_laborales + $total_otros, 2);
 
-            $pdf =  PDF::loadView('honorarios/pdf/presupuesto', compact('tareas_impositivas', 'tareas_laborales', 'tareas_otros', 'total_impositivas', 'total_laborales', 'total_otros', 'total'))->setPaper(array(0,0,595.4,841.4),'portrait');
+            $presupuesto_id = Presupuesto::where('presupuesto_id', $presupuesto)->pluck('id')->first();
+            $presupuesto = Presupuesto::find($presupuesto_id);
+
+            $pdf =  PDF::loadView('honorarios/pdf/presupuesto', compact('presupuesto', 'tareas_impositivas', 'tareas_laborales', 'tareas_otros', 'total_impositivas', 'total_laborales', 'total_otros', 'total'))->setPaper(array(0,0,595.4,841.4),'portrait');
             if ($descarga) {
                 return $pdf->download('Presupuesto-'.$presupuesto.'.pdf');
             } else {

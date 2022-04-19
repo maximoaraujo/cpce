@@ -15,10 +15,8 @@
                 <div class="m-portlet__head-tools">
                     <ul class="m-portlet__nav">
                         <li class="m-portlet__nav-item">
-                            <div class="m-input-icon m-input-icon--left">                               
-                                <div class="m-portlet__head-tools">
-                                    <input type="text" wire:model = "buscar" class="form-control m-input col-sm-12" placeholder="Buscar...">
-                                </div>
+                            <div class="m-portlet__head-tools">
+                                <input type="text" wire:model = "buscar" class="form-control m-input col-sm-12 text-left" placeholder="Buscar...">
                             </div>
                         </li>
                     </ul>
@@ -57,7 +55,7 @@
                             @forelse ($presupuestos as $presupuesto)
                                 <tr>
                                     <td>{{date('d-m-Y', strtotime($presupuesto->fecha))}}</td>
-                                    <td>{{$presupuesto->clientes->nombre}}</td>
+                                    <td>{{$presupuesto->cliente}}</td>
                                     <td>
                                         @php
                                         $total_impositivos = App\Models\Honorarios_presupuesto::where('presupuesto_id', $presupuesto->presupuesto_id)->where('tipo', 'impositivo')->sum('total');
