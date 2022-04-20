@@ -49,7 +49,7 @@
                         <div class="m-stack m-stack--ver m-stack--general">
                             <div class="m-stack__item m-stack__item--middle m-brand__logo">
                                 <a href="{{route('home')}}" class="m-brand__logo-wrapper">                                 
-                                    <img alt="logo_cpce" src="{{asset('assets/images/logo_transp_m.png')}}" />
+                                    <img alt="logo_cpce" src="{{asset('assets/images/logo_transp_mini.png')}}" />
                                 </a>
                             </div>
                             <div class="m-stack__item m-stack__item--middle m-brand__tools">
@@ -149,7 +149,7 @@
                         <li class="m-menu__item m-menu__item--submenu m-menu__item--open" aria-haspopup="true" data-menu-submenu-toggle="hover">
                             <a href="#" class="m-menu__link m-menu__toggle">
                                 <i class="m-menu__link-icon flaticon-coins"></i>
-                                <span class="m-menu__link-text">
+                                <span class="m-menu__link-text" style = "color:white;">
                                     Honorarios
                                 </span>
                                 <i class="m-menu__ver-arrow la la-angle-right"></i>
@@ -162,7 +162,7 @@
                                             <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                                 <span></span>
                                             </i>
-                                            <span class="m-menu__link-text">
+                                            <span class="m-menu__link-text" style = "color:white;">
                                                 Calcular Presupuesto
                                             </span>
                                         </a>
@@ -177,7 +177,7 @@
                                             <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                                 <span></span>
                                             </i>
-                                            <span class="m-menu__link-text">
+                                            <span class="m-menu__link-text" style = "color:white;">
                                                 Presupuestos Generados
                                             </span>
                                         </a>

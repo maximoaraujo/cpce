@@ -6,7 +6,6 @@ use Illuminate\Support\Str;
 
 use Livewire\Component;
 use App\Models\Cliente;
-use App\Models\Matriculado;
 use App\Models\Presupuesto;
 use App\Models\Valores;
 use App\Models\Honorarios_presupuesto;
@@ -15,10 +14,9 @@ use App\Models\Valores_empleado;
 
 class CalcularHonorario extends Component
 {
-    public $fecha, $cliente, $cliente_buscar, $matriculado, $matriculado_buscar, $observaciones;
+    public $fecha, $cliente, $cliente_buscar, $observaciones;
     public $clientes = [];
-    public $matriculados = [];
-    public $picked, $picked1;
+    public $picked;
     public $presupuesto, $estado, $buscar;
     public $check_impositivo, $impositivo_id, $laboral_id, $otro_id, $cantidad = 1, $importe, $empleados, $total = 0;
     public $valor, $valor_total, $valor_empleados;
@@ -68,7 +66,6 @@ class CalcularHonorario extends Component
         $this->cargo_otros();
         $this->fecha = date('Y-m-d');
         $this->picked = true;
-        $this->picked1 = true;
     }
 
     public function updatedClienteBuscar()
@@ -86,23 +83,6 @@ class CalcularHonorario extends Component
         $cliente = Cliente::where('codigo', $this->cliente)->first();
         $this->cliente_buscar = $cliente->nombre;
         $this->picked = true;
-    }
-
-    public function updatedMatriculadoBuscar()
-    {
-        $this->picked1 = false;
-
-        $this->matriculados = Matriculado::where('nombre', 'like', '%'.$this->matriculado_buscar.'%')
-        ->take(5)
-        ->get();
-    }
-
-    public function select_matriculado($matriculado_id)
-    {
-        $this->matriculado = $matriculado_id;
-        $matriculado = Matriculado::find($this->matriculado);
-        $this->matriculado_buscar = $matriculado->nombre;
-        $this->picked1 = true;
     }
 
     //Cargamos los valores impositivos
@@ -384,15 +364,14 @@ class CalcularHonorario extends Component
 
             $this->validate([
                 'fecha' => 'required|date:Y-m-d',
-                'cliente' => 'required|exists:clientes,codigo',
-                'matriculado' => 'required|exists:matriculados,id'
+                'cliente' => 'required|exists:clientes,codigo'
             ]);
 
             Presupuesto::create([
                 'presupuesto_id' => $presupuesto_id,
                 'fecha' => $this->fecha,
                 'codigo_cliente' => $this->cliente,
-                'matriculado_id' => $this->matriculado,
+                'matriculado_id' => session('userid'),
                 'observaciones' => $this->observaciones
             ]);
 

@@ -117,37 +117,6 @@
                                 </ul> 
                                 @endif
                             </div>
-                            <div class="col-lg-5">
-                                <label class="">
-                                    Profesional:
-                                </label>
-                                <input type="hidden" wire:model="matriculado" >
-                                <input wire:model="matriculado_buscar" type="text" class="uppercase form-control m-inputt">
-                                @error('matriculado') 
-                                <script>
-                                $("#modal_vista_previa").modal("hide");
-                                </script>
-                                <span class="m-form__help" style = "color:red;font-size:12px;">{{ $message }}</span> 
-                                @enderror
-                                @if(!$picked1)
-                                <ul class="m-nav border px-3">
-                                    @forelse($matriculados as $matriculado)
-                                        <li class="m-nav__item" 
-                                            aria-haspopup="true">
-                                            <a class="m-nav__link" style="cursor:pointer"
-                                                wire:click="select_matriculado( {{ $matriculado->id }} )"
-                                            >
-                                            <span class="m-nav__link-text">
-                                                {{ $matriculado->nombre }}
-                                            </span>                               
-                                            </a>
-                                        </li>
-                                    @empty
-                                    No hay coincidencias...
-                                    @endforelse
-                                </ul> 
-                                @endif
-                            </div>
                             <div class="col-lg-12 mt-3">
                                 <label>
                                     Observaciones:
