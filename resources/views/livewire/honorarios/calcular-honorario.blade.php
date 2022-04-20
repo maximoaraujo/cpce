@@ -79,14 +79,7 @@
                     
                     <div class="m-portlet__body">
                         <div class="form-group m-form__group row">
-                            <div class="col-lg-2">
-                                <label>
-                                    Fecha:
-                                </label>
-                                <input type="date" wire:model.defer="fecha" class="form-control m-input">
-                                @error('fecha') <span class="error">{{ $message }}</span> @enderror
-                            </div>
-                            <div class="col-lg-5">
+                            <div class="col-lg-6">
                                 <label>
                                     Cliente:
                                 </label>
@@ -122,6 +115,12 @@
                                     Observaciones:
                                 </label>
                                 <textarea wire:model.defer="observaciones" class="form-control m-input" rows="3"></textarea>
+                                @error('observaciones') 
+                                <script>
+                                $("#modal_vista_previa").modal("hide");
+                                </script>
+                                <span class="m-form__help" style = "color:red;font-size:12px;">{{ $message }}</span> 
+                                @enderror
                             </div>
                         </div>
                         <hr>

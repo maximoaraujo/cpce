@@ -14,7 +14,7 @@ use App\Models\Valores_empleado;
 
 class CalcularHonorario extends Component
 {
-    public $fecha, $cliente, $cliente_buscar, $observaciones;
+    public $cliente, $cliente_buscar, $observaciones;
     public $clientes = [];
     public $picked;
     public $presupuesto, $estado, $buscar;
@@ -64,7 +64,6 @@ class CalcularHonorario extends Component
         $this->cargo_impositivos();
         $this->cargo_laborales();
         $this->cargo_otros();
-        $this->fecha = date('Y-m-d');
         $this->picked = true;
     }
 
@@ -363,13 +362,13 @@ class CalcularHonorario extends Component
             $this->cambio_valores();
 
             $this->validate([
-                'fecha' => 'required|date:Y-m-d',
-                'cliente' => 'required|exists:clientes,codigo'
+                'cliente' => 'required|exists:clientes,codigo',
+                'observaciones' => 'max:254'
             ]);
 
             Presupuesto::create([
                 'presupuesto_id' => $presupuesto_id,
-                'fecha' => $this->fecha,
+                'fecha' => date('Y-m-d'),
                 'codigo_cliente' => $this->cliente,
                 'matriculado_id' => session('userid'),
                 'observaciones' => $this->observaciones
@@ -382,7 +381,6 @@ class CalcularHonorario extends Component
             $this->cargo_impositivos();
             $this->cargo_laborales();
             $this->cargo_otros();
-            $this->fecha = date('Y-m-d');
             $this->picked = true;
             $this->picked1 = true;
             $this->dispatchBrowserEvent('notify', ['msj' => 'El presupuesto se generó con éxito.', 'type' => 'success']);
