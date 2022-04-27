@@ -223,6 +223,7 @@ class CalcularHonorario extends Component
     public function calcular()
     {
         $valores_a_comparar = Valores_adicionals::orderBy('valor')->get();
+        $valors = Valores::find($this->impositivo_id);
 
         if(($this->importe == null)||($this->importe == 0)||($this->importe <= 158600.00)){
             $this->dispatchBrowserEvent('notify', ['msj' => 'Por favor ingrese un importe valido.', 'type' => 'warning']);
@@ -236,8 +237,13 @@ class CalcularHonorario extends Component
             }
             $valor_resta = $this->importe - $valor_calculo;
             $valor_multi = $valor_resta * $valor_porcentaje / 100;
-            $this->valor_total = round($valor_importe + $valor_multi);
-            
+
+            if ($valors->porcentaje > 0) {
+                $this->valor_total = round($valor_importe + $valor_multi + $valors->precio) * $valors->porcentaje / 100;
+            } else {
+                $this->valor_total = round($valor_importe + $valor_multi + $valors->precio);
+            }
+             
             if($this->valor_total > 0){
                 $this->guadar_presupuesto();
                 $this->dispatchBrowserEvent('calculo-ok', []);
@@ -253,8 +259,19 @@ class CalcularHonorario extends Component
             $valor_id = Valores_empleado::where('min', '<=', $this->empleados)->where('max', '>=', $this->empleados)->pluck('id')->first();
             $valor_aplicar = Valores_empleado::find($valor_id);
     
+            $valores = Valores_empleado::get();
+
+            $importe = 0;
+            foreach ($valores as $valor) {
+                if ($this->empleados > $valor->max) {
+                    $empleados_excedentes = $this->empleados - $valor->max;
+                }
+            }
+
+            $importe = $empleados_excedentes * $valor_aplicar->importe;
+
             //Restar el importe por cada empleado que se exceda
-            $this->valor_empleados = ($this->empleados * $valor_aplicar->importe) + $valor_aplicar->total;
+            $this->valor_empleados = $importe + $valor_aplicar->total;
             if ($this->valor_empleados > 0) {
                 $this->guadar_presupuesto();
                 $this->dispatchBrowserEvent('calculo-empleados-ok', []);

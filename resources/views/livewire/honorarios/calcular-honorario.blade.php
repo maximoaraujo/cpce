@@ -111,7 +111,7 @@
                                 @endif
                             </div>
                             <div class="col-lg-12 mt-3">
-                                <label>
+                                <label></label>
                                     Observaciones:
                                 </label>
                                 <textarea wire:model.defer="observaciones" class="form-control m-input" rows="3"></textarea>
@@ -126,10 +126,12 @@
                         <hr>
                         @if($estado == 1)
                             <div class="tab-content">
+                                <a href = "">Tabla de cálculos</a></span>
                                 @include('honorarios.tipos.impositivo')
                             </div> 
                         @elseif($estado == 2)
                             <div class="tab-content">
+                                <a href = "">Tabla de cálculos</a></span>
                                 @include('honorarios.tipos.laboral')
                             </div>                           
                         @elseif($estado == 3)
