@@ -79,24 +79,17 @@
                     
                     <div class="m-portlet__body">
                         <div class="form-group m-form__group row">
-                            <div class="col-lg-2">
-                                <label>
-                                    Fecha:
-                                </label>
-                                <input type="date" wire:model.defer="fecha" class="form-control m-input">
-                                @error('fecha') <span class="error">{{ $message }}</span> @enderror
-                            </div>
-                            <div class="col-lg-5">
+                            <div class="col-lg-6">
                                 <label>
                                     Cliente:
                                 </label>
-                                <input type="hidden" wire:model="cod_cliente" >
-                                <input wire:model="cliente" type="text" class="uppercase form-control m-inputt">
-                                @error('cod_cliente') 
+                                <input type="hidden" wire:model="cliente" >
+                                <input wire:model="cliente_buscar" type="text" class="uppercase form-control m-inputt">
+                                @error('cliente') 
                                 <script>
                                 $("#modal_vista_previa").modal("hide");
                                 </script>
-                                <span class="error">{{ $message }}</span> 
+                                <span class="m-form__help" style = "color:red;font-size:12px;">{{ $message }}</span> 
                                 @enderror
                                 @if(!$picked)
                                 <ul class="m-nav border px-3">
@@ -117,36 +110,17 @@
                                 </ul> 
                                 @endif
                             </div>
-                            <div class="col-lg-5">
-                                <label class="">
-                                    Profesional:
+                            <div class="col-lg-12 mt-3">
+                                <label>
+                                    Observaciones:
                                 </label>
-                                <input type="hidden" wire:model="matriculado_id" >
-                                <input wire:model="matriculado" type="text" class="uppercase form-control m-inputt">
-                                @error('matriculado_id') 
+                                <textarea wire:model.defer="observaciones" class="form-control m-input" rows="3"></textarea>
+                                @error('observaciones') 
                                 <script>
                                 $("#modal_vista_previa").modal("hide");
                                 </script>
-                                <span class="error">{{ $message }}</span> 
+                                <span class="m-form__help" style = "color:red;font-size:12px;">{{ $message }}</span> 
                                 @enderror
-                                @if(!$picked1)
-                                <ul class="m-nav border px-3">
-                                    @forelse($matriculados as $matriculado)
-                                        <li class="m-nav__item" 
-                                            aria-haspopup="true">
-                                            <a class="m-nav__link" style="cursor:pointer"
-                                                wire:click="select_matriculado( {{ $matriculado->id }} )"
-                                            >
-                                            <span class="m-nav__link-text">
-                                                {{ $matriculado->nombre }}
-                                            </span>                               
-                                            </a>
-                                        </li>
-                                    @empty
-                                    No hay coincidencias...
-                                    @endforelse
-                                </ul> 
-                                @endif
                             </div>
                         </div>
                         <hr>

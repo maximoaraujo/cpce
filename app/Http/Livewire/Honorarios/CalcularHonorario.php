@@ -6,7 +6,6 @@ use Illuminate\Support\Str;
 
 use Livewire\Component;
 use App\Models\Cliente;
-use App\Models\Matriculado;
 use App\Models\Presupuesto;
 use App\Models\Valores;
 use App\Models\Honorarios_presupuesto;
@@ -15,10 +14,9 @@ use App\Models\Valores_empleado;
 
 class CalcularHonorario extends Component
 {
-    public $fecha, $cod_cliente, $cliente, $matriculado_id, $matriculado;
+    public $cliente, $cliente_buscar, $observaciones;
     public $clientes = [];
-    public $matriculados = [];
-    public $picked, $picked1;
+    public $picked;
     public $presupuesto, $estado, $buscar;
     public $check_impositivo, $impositivo_id, $laboral_id, $otro_id, $cantidad = 1, $importe, $empleados, $total = 0;
     public $valor, $valor_total, $valor_empleados;
@@ -66,43 +64,24 @@ class CalcularHonorario extends Component
         $this->cargo_impositivos();
         $this->cargo_laborales();
         $this->cargo_otros();
-        $this->fecha = date('Y-m-d');
         $this->picked = true;
-        $this->picked1 = true;
     }
 
-    public function updatedCliente()
+    public function updatedClienteBuscar()
     {
         $this->picked = false;
 
-        $this->clientes = Cliente::where('nombre', 'like', '%'.$this->cliente.'%')
+        $this->clientes = Cliente::where('nombre', 'like', '%'.$this->cliente_buscar.'%')
         ->take(5)
         ->get();
     }
 
     public function select_cliente($codigo)
     {
-        $this->cod_cliente = $codigo;
-        $cliente = Cliente::where('codigo', $this->cod_cliente)->first();
-        $this->cliente = $cliente->nombre;
+        $this->cliente = $codigo;
+        $cliente = Cliente::where('codigo', $this->cliente)->first();
+        $this->cliente_buscar = $cliente->nombre;
         $this->picked = true;
-    }
-
-    public function updatedMatriculado()
-    {
-        $this->picked1 = false;
-
-        $this->matriculados = Matriculado::where('nombre', 'like', '%'.$this->matriculado.'%')
-        ->take(5)
-        ->get();
-    }
-
-    public function select_matriculado($matriculado_id)
-    {
-        $this->matriculado_id = $matriculado_id;
-        $matriculado = Matriculado::find($this->matriculado_id);
-        $this->matriculado = $matriculado->nombre;
-        $this->picked1 = true;
     }
 
     //Cargamos los valores impositivos
@@ -292,6 +271,7 @@ class CalcularHonorario extends Component
 
     public function vista_previa()
     {
+        $this->resetValidation();
         $total_impositivas = 0;
         $total_laborales = 0;
         $total_otros = 0;
@@ -337,8 +317,6 @@ class CalcularHonorario extends Component
     
                 $presupuesto = Honorarios_presupuesto::create([
                     'presupuesto_id' => session('presupuesto'),
-                    'codigo_cliente' => $this->cod_cliente,
-                    'matriculado_id' => $this->matriculado_id,
                     'valor_id' => $this->valor->id,
                     'tipo' => $this->valor->tipo,
                     'cantidad' => $this->cantidad,
@@ -383,18 +361,18 @@ class CalcularHonorario extends Component
             $this->dispatchBrowserEvent('vista-previa-fuera', []);   
         } else {
             $this->cambio_valores();
-            
-            $validatedData = $this->validate([
-                'fecha' => 'required|date:Y-m-d',
-                'cod_cliente' => 'required|exists:clientes,codigo',
-                'matriculado_id' => 'required|exists:matriculados,id'
+
+            $this->validate([
+                'cliente' => 'required|exists:clientes,codigo',
+                'observaciones' => 'max:254'
             ]);
 
             Presupuesto::create([
                 'presupuesto_id' => $presupuesto_id,
-                'fecha' => $this->fecha,
-                'codigo_cliente' => $this->cod_cliente,
-                'matriculado_id' => $this->matriculado_id
+                'fecha' => date('Y-m-d'),
+                'codigo_cliente' => $this->cliente,
+                'matriculado_id' => session('userid'),
+                'observaciones' => $this->observaciones
             ]);
 
             session(['presupuesto' => null]);
@@ -404,7 +382,6 @@ class CalcularHonorario extends Component
             $this->cargo_impositivos();
             $this->cargo_laborales();
             $this->cargo_otros();
-            $this->fecha = date('Y-m-d');
             $this->picked = true;
             $this->picked1 = true;
             $this->dispatchBrowserEvent('notify', ['msj' => 'El presupuesto se generó con éxito.', 'type' => 'success']);
