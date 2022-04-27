@@ -274,6 +274,7 @@ class CalcularHonorario extends Component
             $valor_id = Valores_empleado::where('min', '<=', $this->empleados)->where('max', '>=', $this->empleados)->pluck('id')->first();
             $valor_aplicar = Valores_empleado::find($valor_id);
     
+            //Restar el importe por cada empleado que se exceda
             $this->valor_empleados = ($this->empleados * $valor_aplicar->importe) + $valor_aplicar->total;
             if ($this->valor_empleados > 0) {
                 $this->guadar_presupuesto();
