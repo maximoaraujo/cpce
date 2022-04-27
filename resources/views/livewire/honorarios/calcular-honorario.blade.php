@@ -126,12 +126,12 @@
                         <hr>
                         @if($estado == 1)
                             <div class="tab-content">
-                                <a href = "">Tabla de cálculos</a></span>
+                                <a href = "#">Tabla de cálculos</a></span>
                                 @include('honorarios.tipos.impositivo')
                             </div> 
                         @elseif($estado == 2)
                             <div class="tab-content">
-                                <a href = "">Tabla de cálculos</a></span>
+                                <a href = "#">Tabla de cálculos</a></span>
                                 @include('honorarios.tipos.laboral')
                             </div>                           
                         @elseif($estado == 3)
