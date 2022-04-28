@@ -1,4 +1,5 @@
 <div>
+    @include('honorarios.modales.modal-agregar-cliente')
     @include('honorarios.modales.modal-cantidad')
     @include('honorarios.modales.modal-calculo')
     @include('honorarios.modales.modal-empleados')
@@ -105,7 +106,14 @@
                                             </a>
                                         </li>
                                     @empty
-                                    No hay coincidencias...
+                                    <li class="m-nav__item" 
+                                        aria-haspopup="true">
+                                        <a wire:click="agregar_cliente" class="m-nav__link" style="cursor:pointer">
+                                        <span class="m-nav__link-text">
+                                            Agregar cliente
+                                        </span>                               
+                                        </a>
+                                    </li>
                                     @endforelse
                                 </ul> 
                                 @endif
@@ -149,6 +157,14 @@
 </div>
 @section('js')
 <script>
+window.addEventListener('agregar-cliente', event => {
+    $("#modal-cliente").modal("show");
+});
+
+window.addEventListener('cliente-agregado', event => {
+    $("#modal-cliente").modal("hide");
+});
+
 window.addEventListener('tiene-cantidad', event => {
     $("#modal-cantidad").modal("show");
 });

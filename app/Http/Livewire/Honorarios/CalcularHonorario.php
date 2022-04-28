@@ -6,6 +6,8 @@ use Illuminate\Support\Str;
 
 use Livewire\Component;
 use App\Models\Cliente;
+use App\Models\Provincia;
+use App\Models\Localidad;
 use App\Models\Presupuesto;
 use App\Models\Valores;
 use App\Models\Honorarios_presupuesto;
@@ -14,8 +16,12 @@ use App\Models\Valores_empleado;
 
 class CalcularHonorario extends Component
 {
-    public $cliente, $cliente_buscar, $observaciones;
+    public $cliente, $cliente_buscar, $observaciones, $nombre, $cuit, $direccion;
     public $clientes = [];
+    public $localidad;
+    public $localidades = [];
+    public $provincia;
+    public $provincias = [];
     public $picked;
     public $presupuesto, $estado, $buscar;
     public $check_impositivo, $impositivo_id, $laboral_id, $otro_id, $cantidad = 1, $importe, $empleados, $total = 0;
@@ -65,6 +71,7 @@ class CalcularHonorario extends Component
         $this->cargo_laborales();
         $this->cargo_otros();
         $this->picked = true;
+        $this->cargo_provincias();
     }
 
     public function updatedClienteBuscar()
@@ -74,6 +81,49 @@ class CalcularHonorario extends Component
         $this->clientes = Cliente::where('nombre', 'like', '%'.$this->cliente_buscar.'%')
         ->take(5)
         ->get();
+    }
+
+    public function agregar_cliente()
+    {
+        $this->dispatchBrowserEvent('agregar-cliente', []);
+    }
+
+    public function cargo_provincias()
+    {
+        $this->provincias = Provincia::orderBy('nombre')->get();
+    }
+
+    public function updatedProvincia()
+    {
+        $this->cargo_localidades();
+    }
+
+    public function cargo_localidades()
+    {
+        $this->localidades = Localidad::where('provincia_id', $this->provincia)->orderBy('nombre')->get();
+    }
+
+    public function guardar_cliente()
+    {
+        $this->validate([
+            'nombre' => 'required|max:250',
+            'cuit' => 'required|unique:clientes,cuit',
+        ]);
+
+        $cliente = Cliente::create([
+            'nombre' => $this->nombre,
+            'cuit' => $this->cuit,
+            'direccion' => $this->direccion,
+            'localidad' => $this->localidad,
+            'estado' => 0,
+            'condicion_iva' => 5
+        ]);
+
+        if ($cliente) {
+            $this->select_cliente($cliente->id);
+            $this->dispatchBrowserEvent('cliente-agregado', []);
+            $this->cargo_provincias();
+        }
     }
 
     public function select_cliente($codigo)
