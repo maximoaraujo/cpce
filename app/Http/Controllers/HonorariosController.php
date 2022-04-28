@@ -7,6 +7,8 @@ use DB;
 use Illuminate\Http\Request;
 use App\Models\Operadores_monitor;
 use App\Models\Valores;
+use App\Models\Valores_adicionals;
+use App\Models\Valores_empleado;
 use App\Models\Presupuesto;
 use App\Models\Honorarios_presupuesto;
 
@@ -74,5 +76,15 @@ class HonorariosController extends Controller
         } else {
             return view('auth.login');
         }
+    }
+
+    public function tablas_calculos($tabla)
+    {
+        $name = Operadores_monitor::where('OperadorMonitorId', session('userid'))->pluck('NombreApellido');
+        foreach ($name as $n) {
+            $username = $n;
+        }
+
+        return view('honorarios.tabla-calculos', compact('username', 'tabla'));
     }
 }
