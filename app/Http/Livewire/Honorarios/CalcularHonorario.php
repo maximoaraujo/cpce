@@ -270,7 +270,7 @@ class CalcularHonorario extends Component
             }
        
             $valor_resta = $this->importe - $valor_calculo;
-            $valor_multi = $valor_resta * $valor_porcentaje;
+            $valor_multi = $valor_resta * $valor_porcentaje / 100;
 
             if ($valors->porcentaje > 0) {
                 $valor_total = round($valor_importe + $valor_multi + $valors->precio);
