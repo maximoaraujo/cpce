@@ -12,16 +12,11 @@ class Presupuesto extends Model
     protected $fillable = [
         'presupuesto_id',
         'fecha',
-        'codigo_cliente',
+        'cliente',
         'matriculado_id',
         'observaciones'
     ];
 
-    public function clientes()
-    {
-        return $this->belongsTo(Cliente::class, 'codigo_cliente', 'codigo');
-    }
-    
     public function matriculados()
     {
         return $this->belongsTo(Matriculado::class, 'matriculado_id');

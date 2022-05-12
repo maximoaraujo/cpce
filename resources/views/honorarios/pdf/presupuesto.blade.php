@@ -153,12 +153,7 @@
             <td colspan="5"><b>Fecha: </b>{{date('d-m-Y', strtotime($presupuesto->fecha))}}</td>
         </tr>
         <tr class="">
-            <td colspan="2"><b>Cliente: </b>{{$presupuesto->clientes->nombre}}</td>
-            <td colspan="3"><b>C.U.I.T.: </b>{{$presupuesto->clientes->cuit}}</td>
-        <tr class="">
-            <td colspan="2"><b>Dirección: </b>{{$presupuesto->clientes->direccion}}</td>
-            <td colspan="3"><b>Telefono: </b>{{$presupuesto->clientes->telefono}}</td>
-        </tr>
+            <td colspan="5"><b>Cliente: </b>{{$presupuesto->cliente}}</td>
     </table>
 
     <table style="width: 100%">

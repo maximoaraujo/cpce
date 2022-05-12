@@ -45,7 +45,7 @@
             <div class="m-container m-container--fluid m-container--full-height">
                 <div class="m-stack m-stack--ver m-stack--desktop">
                     <!-- BEGIN: Brand -->
-                    <div class="m-stack__item m-brand  m-brand--skin-dark ">
+                    <div class="m-stack__item m-brand  m-brand--skin-light">
                         <div class="m-stack m-stack--ver m-stack--general">
                             <div class="m-stack__item m-stack__item--middle m-brand__logo">
                                 <a href="{{route('home')}}" class="m-brand__logo-wrapper">                                 

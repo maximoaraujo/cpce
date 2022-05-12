@@ -84,39 +84,13 @@
                                 <label>
                                     Cliente:
                                 </label>
-                                <input type="hidden" wire:model="cliente" >
-                                <input wire:model="cliente_buscar" type="text" class="uppercase form-control m-inputt">
+                                <input wire:model.defer="cliente" type="text" class="uppercase form-control m-inputt">
                                 @error('cliente') 
                                 <script>
                                 $("#modal_vista_previa").modal("hide");
                                 </script>
                                 <span class="m-form__help" style = "color:red;font-size:12px;">{{ $message }}</span> 
                                 @enderror
-                                @if(!$picked)
-                                <ul class="m-nav border px-3">
-                                    @forelse($clientes as $cliente)
-                                        <li class="m-nav__item" 
-                                            aria-haspopup="true">
-                                            <a class="m-nav__link" style="cursor:pointer"
-                                                wire:click="select_cliente( {{ $cliente->codigo }} )"
-                                            >
-                                            <span class="m-nav__link-text">
-                                                {{ $cliente->nombre }}
-                                            </span>                               
-                                            </a>
-                                        </li>
-                                    @empty
-                                    <li class="m-nav__item" 
-                                        aria-haspopup="true">
-                                        <a wire:click="agregar_cliente" class="m-nav__link" style="cursor:pointer">
-                                        <span class="m-nav__link-text">
-                                            Agregar cliente
-                                        </span>                               
-                                        </a>
-                                    </li>
-                                    @endforelse
-                                </ul> 
-                                @endif
                             </div>
                             <div class="col-lg-12 mt-3">
                                 <label></label>

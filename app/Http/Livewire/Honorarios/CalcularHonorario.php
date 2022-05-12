@@ -16,7 +16,7 @@ use App\Models\Valores_empleado;
 
 class CalcularHonorario extends Component
 {
-    public $cliente, $cliente_buscar, $observaciones, $nombre, $cuit, $direccion;
+    public $cliente, $observaciones, $nombre, $cuit, $direccion;
     public $clientes = [];
     public $localidad;
     public $localidades = [];
@@ -74,15 +74,6 @@ class CalcularHonorario extends Component
         $this->cargo_provincias();
     }
 
-    public function updatedClienteBuscar()
-    {
-        $this->picked = false;
-
-        $this->clientes = Cliente::where('nombre', 'like', '%'.$this->cliente_buscar.'%')
-        ->take(5)
-        ->get();
-    }
-
     public function agregar_cliente()
     {
         $this->dispatchBrowserEvent('agregar-cliente', []);
@@ -124,14 +115,6 @@ class CalcularHonorario extends Component
             $this->dispatchBrowserEvent('cliente-agregado', []);
             $this->cargo_provincias();
         }
-    }
-
-    public function select_cliente($codigo)
-    {
-        $this->cliente = $codigo;
-        $cliente = Cliente::where('codigo', $this->cliente)->first();
-        $this->cliente_buscar = $cliente->nombre;
-        $this->picked = true;
     }
 
     //Cargamos los valores impositivos
@@ -285,15 +268,18 @@ class CalcularHonorario extends Component
                     $valor_porcentaje = $valor->porcentaje; 
                 }
             }
+       
             $valor_resta = $this->importe - $valor_calculo;
-            $valor_multi = $valor_resta * $valor_porcentaje / 100;
+            $valor_multi = $valor_resta * $valor_porcentaje;
 
             if ($valors->porcentaje > 0) {
-                $this->valor_total = round($valor_importe + $valor_multi + $valors->precio) * $valors->porcentaje / 100;
+                $valor_total = round($valor_importe + $valor_multi + $valors->precio);
+                $porcentaje = $valors->porcentaje / 100;
+                $this->valor_total =  $valor_total * $porcentaje;
             } else {
                 $this->valor_total = round($valor_importe + $valor_multi + $valors->precio);
             }
-             
+                        
             if($this->valor_total > 0){
                 $this->guadar_presupuesto();
                 $this->dispatchBrowserEvent('calculo-ok', []);
@@ -430,14 +416,14 @@ class CalcularHonorario extends Component
             $this->cambio_valores();
 
             $this->validate([
-                'cliente' => 'required|exists:clientes,codigo',
+                'cliente' => 'required|max:254',
                 'observaciones' => 'max:254'
             ]);
 
             Presupuesto::create([
                 'presupuesto_id' => $presupuesto_id,
                 'fecha' => date('Y-m-d'),
-                'codigo_cliente' => $this->cliente,
+                'cliente' => $this->cliente,
                 'matriculado_id' => session('userid'),
                 'observaciones' => $this->observaciones
             ]);
